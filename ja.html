@@ -46,15 +46,20 @@ button{font-family:inherit}
 .btn{background:var(--accent);color:#03212d;border:none;border-radius:8px;padding:8px 14px;font-weight:700;cursor:pointer;font-size:.85rem}
 .btn.ghost{background:var(--panel);color:var(--dim);border:1px solid var(--line)}
 .updated{font-size:.78rem;color:var(--dim);margin:8px 0 2px}
-.rangebar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:var(--panel);
-  border:1px solid var(--line);border-radius:11px;padding:10px 12px;margin:12px 0 4px}
-.rangebar .rb-l{font-size:.85rem;font-weight:700}
-.rangebar .rb-t{color:var(--dim)}
-.rangebar input{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:7px;padding:6px 8px;font-size:.82rem;font-family:inherit}
-.langbar{margin-left:auto;display:flex;gap:5px}
+.rangebar{display:flex;flex-direction:column;gap:10px;background:var(--panel);
+  border:1px solid var(--line);border-radius:11px;padding:12px 14px;margin:12px 0 4px}
+.rb-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.rangebar .rb-l{font-size:.88rem;font-weight:700;white-space:nowrap}
+.rb-row{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap}
+.rangebar .rb-t{color:var(--dim);display:flex;align-items:center;flex-shrink:0}
+.rangebar input{flex:1;min-width:130px;background:var(--panel2);border:1px solid var(--line);
+  color:var(--text);border-radius:8px;padding:9px 10px;font-size:.86rem;font-family:inherit;
+  text-align:center;color-scheme:dark}
+.rb-row .btn{flex-shrink:0;padding:9px 18px}
+.langbar{display:flex;gap:5px}
 .langbar a{padding:6px 11px;border:1px solid var(--line);border-radius:7px;color:var(--dim);text-decoration:none;font-size:.78rem}
 .langbar a.active{border-color:var(--accent);color:var(--text);background:var(--panel2);font-weight:700}
-@media(max-width:560px){.langbar{margin-left:0;width:100%;justify-content:flex-end}}
+@media(max-width:480px){.rb-row .btn{flex:1 0 100%}}
 .settings{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:8px 0;font-size:.8rem;color:var(--dim)}
 .settings input,.settings select{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:7px;padding:5px 8px;font-size:.8rem}
 .banner{border-radius:10px;padding:11px 14px;margin:10px 0;font-size:.88rem;border:1px solid var(--line);background:var(--panel)}
@@ -234,10 +239,14 @@ iPhoneで実行する方法:<br>
   <div class="sub">DIVE WEATHER · OCEAN · CURRENT · SAFETY DECISION SYSTEM</div>
 </header></div>
 <div class="rangebar">
-  <span class="rb-l">📅 ダイビング期間</span>
-  <input type="date" id="startDate"><span class="rb-t">~</span><input type="date" id="endDate">
-  <button class="btn" onclick="applySettings()">分析する</button>
-  <span class="langbar"><a href="index.html">한국어</a><a class="active" href="ja.html">日本語</a><a href="en.html">English</a></span>
+  <div class="rb-top">
+    <span class="rb-l">📅 ダイビング期間</span>
+    <span class="langbar"><a href="index.html">한국어</a><a class="active" href="ja.html">日本語</a><a href="en.html">English</a></span>
+  </div>
+  <div class="rb-row">
+    <input type="date" id="startDate"><span class="rb-t">~</span><input type="date" id="endDate">
+    <button class="btn" onclick="applySettings()">分析する</button>
+  </div>
 </div>
 <div class="updated" id="updated">データ読み込み中…</div>
 <div class="settings" id="setrow" style="display:none">
