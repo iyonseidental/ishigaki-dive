@@ -160,10 +160,48 @@ button{font-family:inherit}
 .linkgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
 .linkgrid a{display:block;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px;color:var(--text);text-decoration:none;font-size:.82rem}
 .linkgrid a small{display:block;color:var(--dim);font-size:.68rem}
+/* briefing */
+.brief{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.brief .txt{font-size:.9rem;line-height:1.75}
+.brief .txt b{color:var(--accent)}
+.jmafc{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:10px}
+.jmafc th,.jmafc td{padding:6px 8px;border-bottom:1px solid #12253a;text-align:left;vertical-align:top}
+.jmafc th{color:var(--dim);font-weight:600;white-space:nowrap}
+.jmaorig{margin-top:10px}
+.jmaorig summary{cursor:pointer;color:var(--dim);font-size:.76rem}
+.jmaorig p{font-size:.78rem;color:var(--dim);white-space:pre-line;margin-top:6px;line-height:1.7}
+.duo{display:grid;gap:0}
+/* ---------- responsive ---------- */
+@media(min-width:1000px){
+  .duo{grid-template-columns:1fr 1fr;gap:0 22px;align-items:start}
+  .conds{grid-template-columns:repeat(4,1fr)}
+  .strip{grid-template-columns:repeat(4,1fr)}
+  .oday .sc{font-size:2.6rem}
+  .hrow{height:130px}
+  .gtiles{grid-template-columns:repeat(5,1fr)}
+}
 @media(max-width:640px){
-  .outlook .sc{font-size:1.7rem}
-  .oday svg{width:52px}
+  .wrap{padding-top:10px}
+  h2{font-size:.95rem;margin-top:22px}
+  .outlook{gap:7px}
+  .outlook .sc,.oday .sc{font-size:1.65rem}
+  .oday{padding:10px 6px}
+  .oday svg{width:50px}
+  .oday .meta{font-size:.62rem}
   #siteMap{height:320px}.mapframe{height:360px}
+  header h1{font-size:1.05rem}
+  .btn{padding:7px 10px;font-size:.78rem}
+  .updchip{font-size:.62rem}
+  .summary{font-size:.86rem;padding:12px 13px}
+  .rrow{padding:8px 9px;gap:7px}
+  .rrow .cond{display:none}
+  .rrow .nm .a{font-size:.62rem}
+  .conds{grid-template-columns:repeat(2,1fr)}
+  .ctable th,.ctable td{padding:5px 6px;font-size:.72rem}
+}
+@media(max-width:380px){
+  .hoursel button{padding:3px 6px;font-size:.62rem}
+  .conds{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
@@ -314,6 +352,9 @@ async function collect(start,end){
     models:fetch(`https://api.open-meteo.com/v1/forecast?latitude=${H.lat}&longitude=${H.lon}&hourly=wind_speed_10m&models=${MODELS.join(',')}&wind_speed_unit=kn&timezone=Asia%2FTokyo&start_date=${start}&end_date=${end}`).then(r=>r.json()),
     warn:fetch('https://www.jma.go.jp/bosai/warning/data/warning/474000.json').then(r=>r.json()),
     tc:loadTyphoons(),
+    current:fetch(`https://api.open-meteo.com/v1/forecast?latitude=${H.lat}&longitude=${H.lon}&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,wind_gusts_10m,wind_direction_10m,pressure_msl,precipitation,weather_code,cloud_cover&wind_speed_unit=kn&timezone=Asia%2FTokyo`).then(r=>r.json()),
+    jmaText:fetch('https://www.jma.go.jp/bosai/forecast/data/overview_forecast/474000.json').then(r=>r.json()),
+    jmaFc:fetch('https://www.jma.go.jp/bosai/forecast/data/forecast/474000.json').then(r=>r.json()),
   };
   const keys=Object.keys(jobs);
   const res=await Promise.allSettled(keys.map(k=>jobs[k]));
@@ -558,6 +599,71 @@ function boatComfort(di){ /* §61 — 원시(비보호) 해면 + 돌풍, 오전 
   const c=Math.round(clamp(100-Math.min(70,w*38)-Math.min(20,Math.max(0,(g??0)-15)*1.5),0,100));
   return {score:c,label:c>=85?'잔잔한 항해':c>=70?'가벼운 흔들림':c>=50?'제법 흔들림 — 멀미약 권장':c>=30?'거친 항해':'항해 부적합 수준',wave:w};
 }
+/* ---------------- WEATHER BRIEFING (실황 + JMA 문자예보 + 자동 상세 요약) ---------------- */
+const WMO_KO={0:'맑음',1:'대체로 맑음',2:'구름 조금',3:'흐림',45:'안개',48:'안개',51:'가랑비',53:'이슬비',55:'강한 이슬비',61:'약한 비',63:'비',65:'강한 비',80:'약한 소나기',81:'소나기',82:'강한 소나기',95:'뇌우',96:'뇌우(우박)',99:'강한 뇌우(우박)'};
+function wmoKo(c){return WMO_KO[c]??(c>=51&&c<=67?'비':c>=80&&c<95?'소나기':'—')}
+const JP2KR=[['ところにより','곳에 따라'],['所により','곳에 따라'],['時々','때때로'],['一時','한때'],['夜遅く','밤늦게'],['夜のはじめ頃','초저녁'],['明け方','새벽'],['昼過ぎ','오후'],['朝晩','아침저녁'],['夕方','저녁'],['日中','낮 동안'],['未明','심야'],['朝','아침'],['夜','밤'],['くもり','흐림'],['晴れ','맑음'],['雷を伴う','뇌우 동반'],['雷','뇌우'],['雨','비'],['うねり','너울'],['を伴う','동반'],['やや強く','다소 강하게'],['強く','강하게'],['メートル','m'],['南西','남서'],['南東','남동'],['北西','북서'],['北東','북동'],['南','남'],['北','북'],['東','동'],['西','서'],['の風','풍'],['風','풍'],['後','→'],['　',' ']];
+function jp2kr(s){if(!s)return'';let t=s;
+  const zen='０１２３４５６７８９．',han='0123456789.';
+  for(let i=0;i<zen.length;i++)t=t.split(zen[i]).join(han[i]);
+  for(const[a,b]of JP2KR)t=t.split(a).join(b);
+  return t.replace(/\s*で\s*/g,' · ').replace(/\s+/g,' ').trim()}
+function parseJmaFc(){
+  try{
+    const f=RAW.jmaFc[0],ts=f.timeSeries;
+    const a0=ts[0].areas.find(a=>a.area.code==='474010')||ts[0].areas[0];
+    const days=ts[0].timeDefines.map((td,i)=>({date:td.slice(5,10).replace('-','/'),key:td.slice(5,10),
+      weather:jp2kr(a0.weathers?.[i]),wind:jp2kr(a0.winds?.[i]),wave:jp2kr(a0.waves?.[i])}));
+    const p=ts[1],pa=p.areas.find(a=>a.area.code==='474010')||p.areas[0];
+    const pop={};p.timeDefines.forEach((td,i)=>{const d=td.slice(5,10);const v=+pa.pops[i];
+      if(!isNaN(v))pop[d]=Math.max(pop[d]??0,v)});
+    days.forEach(d=>{if(pop[d.key]!=null)d.pop=pop[d.key]});
+    return {report:f.reportDatetime,days};
+  }catch(e){return null}
+}
+function makeBriefText(){
+  const s=[],t=TRIP,c=RAW.current&&RAW.current.current,fc=parseJmaFc();
+  if(c)s.push(`지금 이시가키는 <b>${wmoKo(c.weather_code)}</b>, 기온 ${c.temperature_2m?.toFixed(1)}°C(체감 ${c.apparent_temperature?.toFixed(1)}°C), ${dirName(c.wind_direction_10m)}풍 ${c.wind_speed_10m?.toFixed(0)}kt(돌풍 ${c.wind_gusts_10m?.toFixed(0)}kt)입니다.`);
+  if(fc&&fc.days[0])s.push(`일본기상청 공식 예보(이시가키지방)는 오늘 "<b>${fc.days[0].weather}</b>", 파고 "<b>${fc.days[0].wave}</b>"${fc.days[0].pop!=null?`, 강수확률 ${fc.days[0].pop}%`:''}입니다.`);
+  if(t&&t.bestDay){
+    s.push(`여행 3일 중 <b>${dayName(t.bestDay.i)}</b>이 ${t.bestDay.d.overall}점으로 가장 유리하며, 추천 시간대는 <b>${t.bestDay.d.win?fmtWin(t.bestDay.d.win):'-'}</b>입니다.`);
+    const kc0=keyConds(t.bestDay.i);
+    if(kc0)s.push(`이날 최적 포인트(${kc0.site.name}) 기준 파고 약 ${kc0.wave?.toFixed(1)}m, 너울 ${kc0.swell?.toFixed(1)}m@${kc0.swellT?.toFixed(0)}s, 수온 ${kc0.sst?.toFixed(1)}°C가 예상됩니다.`);
+  }
+  if(t&&t.bestManta&&t.bestManta.d.manta.win)s.push(`만타 포인트 접근 조건은 <b>${dayName(t.bestManta.i)} ${fmtWin(t.bestManta.d.manta.win)}</b>가 가장 좋습니다(출현 확률과는 별개).`);
+  const tcs=RAW.tc;
+  if(tcs&&tcs.length){const near=Math.min(...tcs.map(x=>Math.min(x.nowDist??1e9,x.minDist??1e9)));
+    s.push(near<800?`⚠️ 열대저기압이 최소 ${Math.round(near)}km까지 접근하는 예보가 있어 결항 가능성을 반드시 확인해야 합니다.`
+      :`활동 중인 열대저기압 ${tcs.length}개는 모두 ${Math.round(near).toLocaleString()}km 이상 떨어져 있어 현재 직접 영향은 없습니다.`);}
+  else if(tcs)s.push('현재 활동 중인 태풍·열대저기압은 없습니다.');
+  if(MX&&MX.warn&&MX.warn.list&&MX.warn.list.length)s.push(`⚠️ JMA 공식 <b>${MX.warn.list.map(x=>x.name).join('·')}</b> 발효 중 — 점수 상한이 적용되어 있습니다.`);
+  if(t)s.push(`예보 신뢰도: ${t.days.map((d,i)=>`${dayName(i)} ${d.conf}%`).join(' · ')}.`);
+  return s.join(' ');
+}
+function renderBriefing(){
+  let h='<div class="brief">';
+  const c=RAW.current&&RAW.current.current;
+  if(c){
+    h+=`<div class="small" style="margin-bottom:8px">현재 실황 — 관측시각 ${c.time?.slice(11)} JST <span class="tag">NOWCAST · MODEL</span></div>
+    <div class="conds" style="margin-bottom:12px">
+    <div class="cond"><div class="k">날씨</div><div class="v">${wmoKo(c.weather_code)}</div><div class="s">운량 ${c.cloud_cover}%</div></div>
+    <div class="cond"><div class="k">기온</div><div class="v">${c.temperature_2m?.toFixed(1)}°C</div><div class="s">체감 ${c.apparent_temperature?.toFixed(1)}°C</div></div>
+    <div class="cond"><div class="k">바람</div><div class="v">${dirName(c.wind_direction_10m)}풍 ${c.wind_speed_10m?.toFixed(0)}kt ${arrowSpan(c.wind_direction_10m!=null?c.wind_direction_10m+180:null)}</div><div class="s">돌풍 ${c.wind_gusts_10m?.toFixed(0)}kt</div></div>
+    <div class="cond"><div class="k">습도 · 기압</div><div class="v">${c.relative_humidity_2m}% · ${c.pressure_msl?.toFixed(0)}hPa</div><div class="s">강수 ${c.precipitation}mm/h</div></div>
+    </div>`;
+  }
+  h+=`<div class="txt">${makeBriefText()}</div>`;
+  const fc=parseJmaFc();
+  if(fc){
+    h+=`<table class="jmafc"><tr><th>날짜</th><th>날씨</th><th>바람</th><th>파고</th><th>강수확률</th></tr>`+
+      fc.days.map(d=>`<tr><th>${d.date}</th><td>${d.weather||'-'}</td><td>${d.wind||'-'}</td><td>${d.wave||'-'}</td><td>${d.pop!=null?d.pop+'%':'-'}</td></tr>`).join('')+
+      `</table><div class="small" style="margin-top:4px">이시가키지방기상대 공식 단기예보 · 발표 ${fc.report?.slice(5,16).replace('T',' ')} · 일본어 원문 자동 변환 <span class="tag live">OFFICIAL</span></div>`;
+  }
+  if(RAW.jmaText&&RAW.jmaText.text){
+    h+=`<details class="jmaorig"><summary>📄 JMA 기상 개황 원문 보기 (일본어 · ${RAW.jmaText.reportDatetime?.slice(5,16).replace('T',' ')} 발표)</summary><p>${RAW.jmaText.text}</p></details>`;
+  }
+  return h+'</div>';
+}
 /* ================================================================ RENDER */
 function dayName(i){const d=DAYS_DATE[i];return `${d.getMonth()+1}/${d.getDate()}(${DOW[d.getDay()]})`}
 let DAYS_DATE=[];
@@ -601,6 +707,8 @@ function render(){
       <div class="stat"><div class="k">FORECAST CONFIDENCE</div><div class="v">${bd.conf}% ${bd.conf>=80?'HIGH':bd.conf>=60?'MEDIUM':'LOW'}</div></div>
     </div>`;
   }
+  /* WEATHER BRIEFING */
+  html+=`<h2>📰 <b>WEATHER BRIEFING</b> — 실시간 상세 기상 요약 <span class="tag live">LIVE</span></h2>`+renderBriefing();
   /* SECTION 4: MANTA */
   html+=`<h2>🐋 <b>MANTA POINT</b> <span class="small">Manta City · Manta Scramble · Kabira Ishizaki · Yonara</span></h2><div class="manta">
     <h3>MANTA DIVE CONDITION <span class="tag est">기상 접근성</span></h3><div class="mdays">`;
@@ -643,7 +751,8 @@ function render(){
   html+=`<div class="small" style="margin-top:4px">화살표는 <b>흘러가는/불어가는 방향</b>(지도 기준 ↑=북). 바람 표기 "북동풍"은 북동<b>에서</b> 불어오는 바람입니다.</div>`;
   if(dObj.win)html+=`<div class="small" style="margin-top:6px">🕘 <b style="color:var(--accent)">BEST DIVING WINDOW ${fmtWin(dObj.win)}</b> · 평균 ${dObj.win.avg}점</div>`;
   html+=trendReason(activeDay)+`</div>`;
-  /* SECTION 7: KEY CONDITIONS */
+  /* SECTION 7: KEY CONDITIONS + WHY NOT (데스크탑 2열) */
+  html+='<div class="duo"><div>';
   const kc=keyConds(activeDay);
   if(kc){
     html+=`<h2>🌊 <b>KEY CONDITIONS</b> — ${dayName(activeDay)} · ${kc.site.name} 기준 <span class="tag">FORECAST</span></h2><div class="conds">
@@ -656,6 +765,7 @@ function render(){
     <div class="cond"><div class="k">EST. VISIBILITY</div><div class="v">${kc.vis>=85?'Excellent':kc.vis>=70?'Good':kc.vis>=50?'Moderate':'Poor'}</div><div class="s">추정 — 실측 아님</div></div>
     </div>`;
   }
+  html+='</div><div>';
   /* SECTION 8: WHY NOT 100 */
   const wn=whyNot100(activeDay);
   if(wn.loss){
@@ -665,6 +775,7 @@ function render(){
     if(wn.caps.length)html+=`<div class="item" style="border-color:var(--g0)"><b>HARD OVERRIDE</b> · ${wn.caps.join(', ')}</div>`;
     html+='</div>';
   }
+  html+='</div></div>';
   /* 결정 카드 + Boat comfort */
   html+=`<h2>🧭 <b>DECISION CARDS</b></h2><div class="dcards">`;
   if(t.bestDay)html+=`<div class="dcard"><div class="q">단 하루만 다이빙한다면</div><div class="a">${dayName(t.bestDay.i)}</div><div class="d">${t.bestDay.d.overall}점 · ${grade(t.bestDay.d.overall)}</div></div>`;
@@ -674,7 +785,8 @@ function render(){
   const bc=boatComfort(activeDay);
   if(bc)html+=`<div class="dcard"><div class="q">BOAT COMFORT — ${dayName(activeDay)} 오전</div><div class="a" style="color:${gcol(bc.score)}">${bc.score} / 100</div><div class="d">${bc.label}</div></div>`;
   html+='</div>';
-  /* 비교 테이블 (§58) */
+  /* 비교 테이블 (§58) + 모델 비교 (데스크탑 2열) */
+  html+='<div class="duo"><div>';
   html+=`<h2>📊 <b>3-DAY COMPARISON</b></h2><div class="tblwrap"><table class="ctable"><tr><th></th>${t.days.map((d,i)=>`<th>${dayName(i)}</th>`).join('')}</tr>`;
   const rows=[
     ['Overall',i=>t.days[i].overall??'-'],
@@ -686,8 +798,10 @@ function render(){
   ];
   for(const [label,fn] of rows)html+=`<tr><td>${label}</td>${t.days.map((d,i)=>`<td>${fn(i)}</td>`).join('')}</tr>`;
   html+='</table></div>';
+  html+='</div><div>';
   /* 모델 비교 (§39) */
   html+=renderModels(activeDay);
+  html+='</div></div>';
   /* 지도 */
   html+=`<h2>🗺️ <b>DIVE SITE MAP</b> — ${dayName(activeDay)} 종합점수 <span class="small">좌표 근사치(UNVERIFIED)</span></h2><div id="siteMap"></div>`;
   /* 소스/신선도/보고 (§94) */
@@ -787,6 +901,8 @@ function renderSources(){
   <div class="srow"><b>다중모델 합의 (ECMWF·GFS·ICON·JMA)</b> <span class="tag live">LIVE</span><div class="f">신뢰도 산출 · 수집 ${f('models')}</div></div>
   <div class="srow"><b>JMA 공식경보 (야에야마 474000)</b> <span class="tag live">OFFICIAL</span><div class="f">${w?('발표 '+(w.report?.slice(5,16).replace('T',' ')||'-')):'로드 실패'} · Hard Override 연동</div></div>
   <div class="srow"><b>JMA 태풍</b> <span class="tag live">OFFICIAL</span><div class="f">수집 ${f('tc')} · 거리 기반 자동 페널티</div></div>
+  <div class="srow"><b>JMA 단기예보·기상개황 (이시가키지방기상대)</b> <span class="tag live">OFFICIAL</span><div class="f">공식 날씨·바람·파고 문자예보 + 개황 원문 · 수집 ${f('jmaFc')}</div></div>
+  <div class="srow"><b>현재 실황 (Open-Meteo Current)</b> <span class="tag live">NOWCAST</span><div class="f">기온·체감·습도·기압·바람·운량 · 수집 ${f('current')}</div></div>
   <div class="srow"><b>Windy</b> <span class="tag">MAP EMBED ONLY</span><div class="f">공식 embed 위젯 시각화만 사용 (Point API는 유료 키 필요 → 미연결)</div></div>
   <div class="srow"><b>Azure Maps Weather</b> <span class="tag off">NOT CONNECTED</span><div class="f">구독 키 필요 · marine 변수 미제공 → 도입 시 교차검증용</div></div>
   <div class="srow"><b>Copernicus Marine</b> <span class="tag off">NOT CONNECTED</span><div class="f">인증 필요 · Open-Meteo Marine이 동계열 모델 재배포(간접 사용)</div></div>
