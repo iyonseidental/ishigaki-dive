@@ -46,6 +46,15 @@ button{font-family:inherit}
 .btn{background:var(--accent);color:#03212d;border:none;border-radius:8px;padding:8px 14px;font-weight:700;cursor:pointer;font-size:.85rem}
 .btn.ghost{background:var(--panel);color:var(--dim);border:1px solid var(--line)}
 .updated{font-size:.78rem;color:var(--dim);margin:8px 0 2px}
+.rangebar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:var(--panel);
+  border:1px solid var(--line);border-radius:11px;padding:10px 12px;margin:12px 0 4px}
+.rangebar .rb-l{font-size:.85rem;font-weight:700}
+.rangebar .rb-t{color:var(--dim)}
+.rangebar input{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:7px;padding:6px 8px;font-size:.82rem;font-family:inherit}
+.langbar{margin-left:auto;display:flex;gap:5px}
+.langbar a{padding:6px 11px;border:1px solid var(--line);border-radius:7px;color:var(--dim);text-decoration:none;font-size:.78rem}
+.langbar a.active{border-color:var(--accent);color:var(--text);background:var(--panel2);font-weight:700}
+@media(max-width:560px){.langbar{margin-left:0;width:100%;justify-content:flex-end}}
 .settings{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:8px 0;font-size:.8rem;color:var(--dim)}
 .settings input,.settings select{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:7px;padding:5px 8px;font-size:.8rem}
 .banner{border-radius:10px;padding:11px 14px;margin:10px 0;font-size:.88rem;border:1px solid var(--line);background:var(--panel)}
@@ -222,12 +231,16 @@ button{font-family:inherit}
     <button class="btn ghost" onclick="document.getElementById('setrow').style.display=document.getElementById('setrow').style.display==='none'?'flex':'none'">⚙ 설정</button>
     <button class="btn" id="refreshBtn" onclick="loadAll()">🔄 실시간 업데이트</button>
   </div>
-  <div class="sub">DIVE WEATHER · OCEAN · CURRENT · SAFETY DECISION SYSTEM · <a href="ja.html" style="color:var(--accent);text-decoration:none">🇯🇵 日本語</a></div>
+  <div class="sub">DIVE WEATHER · OCEAN · CURRENT · SAFETY DECISION SYSTEM</div>
 </header></div>
+<div class="rangebar">
+  <span class="rb-l">📅 다이빙 기간</span>
+  <input type="date" id="startDate"><span class="rb-t">~</span><input type="date" id="endDate">
+  <button class="btn" onclick="applySettings()">분석하기</button>
+  <span class="langbar"><a class="active" href="index.html">한국어</a><a href="ja.html">日本語</a><a href="en.html">English</a></span>
+</div>
 <div class="updated" id="updated">데이터 로딩 중…</div>
 <div class="settings" id="setrow" style="display:none">
-  <label>다이빙 시작일 <input type="date" id="startDate"></label>
-  <label>다이빙 종료일 <input type="date" id="endDate"></label>
   <label>다이버 레벨
     <select id="diverLevel">
       <option value="beginner">Beginner / Open Water</option>
@@ -310,7 +323,7 @@ const SITES=[
 {id:'taketomiS',name:'다케토미 남쪽',en:'Taketomi S',lat:24.290,lon:124.090,area:'다케토미 남',expo:[150,200,240],prot:.75,cur:'MED',drift:false,manta:false,beg:true,depth:'8–20m'},
 {id:'kuroN',name:'쿠로시마 북쪽',en:'Kuroshima N',lat:24.250,lon:124.005,area:'쿠로시마',expo:[300,340,20],prot:.80,cur:'HIGH',drift:true,manta:false,beg:false,depth:'10–25m'},
 {id:'kuroS',name:'쿠로시마 남쪽 (나카모토)',en:'Kuroshima S',lat:24.220,lon:123.990,area:'쿠로시마',expo:[150,200,250],prot:.80,cur:'HIGH',drift:true,manta:false,beg:false,depth:'12–30m'},
-{id:'yonara',name:'요나라 수도 (만타웨이)',en:'Yonara Channel',lat:24.335,lon:123.970,area:'코하마-이리오모테',expo:[200,250],prot:.55,cur:'HIGH',drift:true,manta:true,beg:false,depth:'10–20m'},
+{id:'yonara',name:'요나라 수도 (만타웨이)',en:'Yonara Channel',lat:24.335,lon:123.970,area:'코하마-이리오모테',expo:[200,250],prot:.55,cur:'HIGH',drift:true,manta:true,beg:false,depth:'10–20m',restricted:true},
 {id:'iriomoteE',name:'이리오모테 동쪽',en:'Iriomote E',lat:24.330,lon:123.880,area:'이리오모테',expo:[60,110],prot:.75,cur:'MED',drift:false,manta:false,beg:false,depth:'8–22m'},
 ];
 /* ================================================================ utils */
@@ -494,6 +507,12 @@ function buildMatrix(days){
     if(tcap<101){score=Math.min(score,tcap);caps.push('태풍 cap'+tcap)}
     if(tpen<0){score+=tpen;caps.push('태풍접근 '+tpen)}
     if(effWave>3){score=Math.min(score,25);caps.push('파고>3m')}
+    /* 입수 제한 포인트 (요나라 수도 등): 물때 기반 규칙 — 실제 입수 가능일은 현지 샵 물때표 기준 */
+    if(site.restricted){
+      const ta=tideAgeName(DAYS_DATE[di]);
+      if(ta.lv===3){score=Math.min(score,50);caps.push('대조기 조류 — 입수 제한 가능성 높음')}
+      else if(ta.lv===2){score-=8;caps.push('중조 — 입수 가능일 샵 확인 필요')}
+    }
     score=Math.round(clamp(score,0,100));
     return {score,sub:subs,caps,conf,
       eff:{wave:effWave,swell:effSw,swellT:swT,windKt,gustKt,wdir,swDir,curKt,curDir,sst,precip,prob,code,rawWave:wave,exW,exS}};
@@ -811,7 +830,7 @@ function render(){
     <div class="hrow" style="height:66px">`+am.hourly.map(x=>x?`<div class="hcol ${am.win&&x.h>=am.win.from&&x.h<am.win.to?'win':''}">
       <span class="v">${x.score}</span><div class="b" style="height:${x.score}%;background:${gcol(x.score)}"></div><span class="t">${x.h}</span></div>`:'').join('')+`</div>`;
   }
-  html+=`<div class="mnote">⚠️ 이 점수는 <b>만타 포인트에 배를 대고 다이빙할 수 있는 기상·해양 조건</b>이며, <b>만타 출현 확률이 아닙니다</b>. 참고: 카비라 이시자키 클리닝 스테이션은 일반적으로 여름~가을에 활동이 알려져 있습니다(계절 일반 정보).</div></div>`;
+  html+=`<div class="mnote">⚠️ 이 점수는 <b>만타 포인트에 배를 대고 다이빙할 수 있는 기상·해양 조건</b>이며, <b>만타 출현 확률이 아닙니다</b>. 계절 참고: 카비라 이시자키 클리닝 스테이션은 여름~가을, <b>요나라 수도(만타웨이)는 9~11월</b>이 성수기로 알려져 있습니다. 요나라 수도는 강한 조류 때문에 <b>물때(대조기·소조기)에 따라 한 달에 약 7일만 입수가 허용</b>되므로 현지 다이빙샵 물때표 확인이 필수입니다.</div></div>`;
   /* 날짜 칩 */
   html+=`<h2>📍 <b>DIVE SITE RANKING</b> — 날짜·시간별</h2><div class="chips">`+
     t.days.map((d,i)=>`<button class="${i===activeDay?'active':''}" onclick="activeDay=${i};render()">${dayName(i)}${d.overall!=null?' · '+d.overall:''}</button>`).join('')+`</div>`;
@@ -915,7 +934,7 @@ function renderRanking(di){
     const c=x.cell||MX[di][CONFIG.hours.indexOf(10)][x.si]||MX[di][0][x.si];
     h+=`<div class="rrow" onclick="this.classList.toggle('open')">
       <span class="no">#${i+1}</span>
-      <span class="nm"><b>${s.name}</b>${s.manta?' 🐋':''}${s.drift?' 🌀':''} <a href="https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}" target="_blank" onclick="event.stopPropagation()" title="구글지도에서 열기" style="font-size:.72rem;text-decoration:none">📍지도</a><div class="a">${s.area} · ${s.depth} · ${s.beg?'초보OK':'경험자'}</div></span>
+      <span class="nm"><b>${s.name}</b>${s.manta?' 🐋':''}${s.drift?' 🌀':''}${s.restricted?' <span style="color:var(--g50);font-size:.66rem;font-weight:800">⚠️입수제한</span>':''} <a href="https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}" target="_blank" onclick="event.stopPropagation()" title="구글지도에서 열기" style="font-size:.72rem;text-decoration:none">📍지도</a><div class="a">${s.area} · ${s.depth} · ${s.beg?'초보OK':'경험자'}${s.restricted?' · 월 ~7일만 입수 가능(물때) — 현지 샵 물때표 필수':''}</div></span>
       ${c?`<span class="cond">파고 ${c.eff.wave.toFixed(1)}m · 너울 ${c.eff.swell.toFixed(1)}m@${(c.eff.swellT??0).toFixed(0)}s ${arrowSpan(c.eff.swDir,'var(--g60)')}<br>바람 ${dirName(c.eff.wdir)} ${c.eff.windKt?.toFixed(0)}kt ${arrowSpan(c.eff.wdir!=null?c.eff.wdir+180:null)} · 해류 ${c.eff.curKt!=null?c.eff.curKt.toFixed(1)+'kt':'N/A'} ${arrowSpan(c.eff.curDir,'var(--g80)')}</span>`:''}
       <span class="sc" style="color:${gcol(x.score)}">${x.score}</span>
       <span class="gr" style="color:${gcol(x.score)}">${grade(x.score)}<br>${gradeKo(x.score)}</span>
@@ -1013,7 +1032,7 @@ function initMap(){
       const s=SITES[x.si],sc=Math.round(x.score);
       const col=getComputedStyle(document.documentElement).getPropertyValue(gcol(sc).slice(4,-1)).trim()||'#888';
       L.circleMarker([s.lat,s.lon],{radius:10,color:col,fillColor:col,fillOpacity:.85,weight:2})
-        .addTo(MAP).bindPopup(`<b>${s.name}</b> ${s.manta?'🐋':''}<br>${dayName(activeDay)} 종합 <b>${sc}점</b> · ${grade(sc)} ${gradeKo(sc)}<br><span style="font-size:.75em">${s.area} · ${s.depth} · 좌표 근사치(UNVERIFIED)</span><br><a href="https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}" target="_blank">📍 구글지도에서 열기</a>`);
+        .addTo(MAP).bindPopup(`<b>${s.name}</b> ${s.manta?'🐋':''}<br>${dayName(activeDay)} 종합 <b>${sc}점</b> · ${grade(sc)} ${gradeKo(sc)}${s.restricted?'<br>⚠️ 입수일 제한 — 현지 샵 물때표 확인':''}<br><span style="font-size:.75em">${s.area} · ${s.depth} · 좌표 근사치(UNVERIFIED)</span><br><a href="https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}" target="_blank">📍 구글지도에서 열기</a>`);
     });
   }catch(e){el.outerHTML='<div class="mapfallback">지도 초기화 실패: '+e.message+'</div>'}
 }
