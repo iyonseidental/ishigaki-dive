@@ -40,6 +40,9 @@ header{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .updchip .ago{color:var(--accent);font-weight:700}
 header h1{font-size:1.28rem;letter-spacing:.04em}
 header h1 span{color:var(--accent)}
+.credit{font-size:.68rem;color:var(--dim);border:1px solid var(--line);border-radius:14px;
+  padding:3px 11px;letter-spacing:.04em;white-space:nowrap;background:var(--panel)}
+.credit b{color:var(--accent);font-weight:700}
 header .sub{width:100%;font-size:.74rem;color:var(--dim);letter-spacing:.14em;margin-top:-4px}
 .hbtns{margin-left:auto;display:flex;gap:8px;align-items:center}
 button{font-family:inherit}
@@ -231,6 +234,7 @@ button{font-family:inherit}
 </div></noscript>
 <div class="topbar"><header>
   <h1>ISHIGAKI <span>DIVE INTELLIGENCE</span></h1>
+  <span class="credit">제작자 <b>Dr. Min &amp; Kim</b> · 만든날짜 2026-08-12 · <b>ver 1.0</b></span>
   <div class="hbtns">
     <div class="updchip" id="updChip">아직 업데이트 전</div>
     <button class="btn ghost" onclick="document.getElementById('setrow').style.display=document.getElementById('setrow').style.display==='none'?'flex':'none'">⚙ 설정</button>
