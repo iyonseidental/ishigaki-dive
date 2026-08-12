@@ -46,6 +46,15 @@ button{font-family:inherit}
 .btn{background:var(--accent);color:#03212d;border:none;border-radius:8px;padding:8px 14px;font-weight:700;cursor:pointer;font-size:.85rem}
 .btn.ghost{background:var(--panel);color:var(--dim);border:1px solid var(--line)}
 .updated{font-size:.78rem;color:var(--dim);margin:8px 0 2px}
+.rangebar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:var(--panel);
+  border:1px solid var(--line);border-radius:11px;padding:10px 12px;margin:12px 0 4px}
+.rangebar .rb-l{font-size:.85rem;font-weight:700}
+.rangebar .rb-t{color:var(--dim)}
+.rangebar input{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:7px;padding:6px 8px;font-size:.82rem;font-family:inherit}
+.langbar{margin-left:auto;display:flex;gap:5px}
+.langbar a{padding:6px 11px;border:1px solid var(--line);border-radius:7px;color:var(--dim);text-decoration:none;font-size:.78rem}
+.langbar a.active{border-color:var(--accent);color:var(--text);background:var(--panel2);font-weight:700}
+@media(max-width:560px){.langbar{margin-left:0;width:100%;justify-content:flex-end}}
 .settings{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:8px 0;font-size:.8rem;color:var(--dim)}
 .settings input,.settings select{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:7px;padding:5px 8px;font-size:.8rem}
 .banner{border-radius:10px;padding:11px 14px;margin:10px 0;font-size:.88rem;border:1px solid var(--line);background:var(--panel)}
@@ -222,12 +231,16 @@ iPhoneで実行する方法:<br>
     <button class="btn ghost" onclick="document.getElementById('setrow').style.display=document.getElementById('setrow').style.display==='none'?'flex':'none'">⚙ 設定</button>
     <button class="btn" id="refreshBtn" onclick="loadAll()">🔄 リアルタイム更新</button>
   </div>
-  <div class="sub">DIVE WEATHER · OCEAN · CURRENT · SAFETY DECISION SYSTEM · <a href="index.html" style="color:var(--accent);text-decoration:none">🇰🇷 한국어</a></div>
+  <div class="sub">DIVE WEATHER · OCEAN · CURRENT · SAFETY DECISION SYSTEM</div>
 </header></div>
+<div class="rangebar">
+  <span class="rb-l">📅 ダイビング期間</span>
+  <input type="date" id="startDate"><span class="rb-t">~</span><input type="date" id="endDate">
+  <button class="btn" onclick="applySettings()">分析する</button>
+  <span class="langbar"><a href="index.html">한국어</a><a class="active" href="ja.html">日本語</a><a href="en.html">English</a></span>
+</div>
 <div class="updated" id="updated">データ読み込み中…</div>
 <div class="settings" id="setrow" style="display:none">
-  <label>ダイビング開始日 <input type="date" id="startDate"></label>
-  <label>ダイビング終了日 <input type="date" id="endDate"></label>
   <label>ダイバーレベル
     <select id="diverLevel">
       <option value="beginner">Beginner / Open Water</option>
@@ -310,7 +323,7 @@ const SITES=[
 {id:'taketomiS',name:'竹富南',en:'Taketomi S',lat:24.290,lon:124.090,area:'竹富南部',expo:[150,200,240],prot:.75,cur:'MED',drift:false,manta:false,beg:true,depth:'8–20m'},
 {id:'kuroN',name:'黒島北',en:'Kuroshima N',lat:24.250,lon:124.005,area:'黒島',expo:[300,340,20],prot:.80,cur:'HIGH',drift:true,manta:false,beg:false,depth:'10–25m'},
 {id:'kuroS',name:'黒島南（仲本）',en:'Kuroshima S',lat:24.220,lon:123.990,area:'黒島',expo:[150,200,250],prot:.80,cur:'HIGH',drift:true,manta:false,beg:false,depth:'12–30m'},
-{id:'yonara',name:'ヨナラ水道（マンタウェイ）',en:'Yonara Channel',lat:24.335,lon:123.970,area:'小浜〜西表',expo:[200,250],prot:.55,cur:'HIGH',drift:true,manta:true,beg:false,depth:'10–20m'},
+{id:'yonara',name:'ヨナラ水道（マンタウェイ）',en:'Yonara Channel',lat:24.335,lon:123.970,area:'小浜〜西表',expo:[200,250],prot:.55,cur:'HIGH',drift:true,manta:true,beg:false,depth:'10–20m',restricted:true},
 {id:'iriomoteE',name:'西表東',en:'Iriomote E',lat:24.330,lon:123.880,area:'西表島',expo:[60,110],prot:.75,cur:'MED',drift:false,manta:false,beg:false,depth:'8–22m'},
 ];
 /* ================================================================ utils */
@@ -494,6 +507,12 @@ function buildMatrix(days){
     if(tcap<101){score=Math.min(score,tcap);caps.push('台風 cap'+tcap)}
     if(tpen<0){score+=tpen;caps.push('台風接近 '+tpen)}
     if(effWave>3){score=Math.min(score,25);caps.push('波高>3m')}
+    /* 입수 제한 포인트 (요나라 수도 등): 물때 기반 규칙 — 실제 입수 가능일은 현지 샵 물때표 기준 */
+    if(site.restricted){
+      const ta=tideAgeName(DAYS_DATE[di]);
+      if(ta.lv===3){score=Math.min(score,50);caps.push('大潮の潮流 — エントリー制限の可能性大')}
+      else if(ta.lv===2){score-=8;caps.push('中潮 — エントリー可能日はショップ確認要')}
+    }
     score=Math.round(clamp(score,0,100));
     return {score,sub:subs,caps,conf,
       eff:{wave:effWave,swell:effSw,swellT:swT,windKt,gustKt,wdir,swDir,curKt,curDir,sst,precip,prob,code,rawWave:wave,exW,exS}};
@@ -807,7 +826,7 @@ function render(){
     <div class="hrow" style="height:66px">`+am.hourly.map(x=>x?`<div class="hcol ${am.win&&x.h>=am.win.from&&x.h<am.win.to?'win':''}">
       <span class="v">${x.score}</span><div class="b" style="height:${x.score}%;background:${gcol(x.score)}"></div><span class="t">${x.h}</span></div>`:'').join('')+`</div>`;
   }
-  html+=`<div class="mnote">⚠️ このスコアは<b>マンタポイントに船を着けてダイビングできる気象・海洋条件</b>であり、<b>マンタ遭遇確率ではありません</b>。参考: 川平石崎のクリーニングステーションは一般的に夏〜秋の活動が知られています（季節の一般情報）。</div></div>`;
+  html+=`<div class="mnote">⚠️ このスコアは<b>マンタポイントに船を着けてダイビングできる気象・海洋条件</b>であり、<b>マンタ遭遇確率ではありません</b>。季節の参考: 川平石崎のクリーニングステーションは夏〜秋、<b>ヨナラ水道（マンタウェイ）は9〜11月</b>が最盛期として知られています。ヨナラ水道は強い潮流のため<b>潮回り（大潮・小潮）により月に約7日のみエントリーが許可</b>されるため、現地ダイビングショップの潮汐表確認が必須です。</div></div>`;
   /* 날짜 칩 */
   html+=`<h2>📍 <b>DIVE SITE RANKING</b> — 日付・時間別</h2><div class="chips">`+
     t.days.map((d,i)=>`<button class="${i===activeDay?'active':''}" onclick="activeDay=${i};render()">${dayName(i)}${d.overall!=null?' · '+d.overall:''}</button>`).join('')+`</div>`;
@@ -911,7 +930,7 @@ function renderRanking(di){
     const c=x.cell||MX[di][CONFIG.hours.indexOf(10)][x.si]||MX[di][0][x.si];
     h+=`<div class="rrow" onclick="this.classList.toggle('open')">
       <span class="no">#${i+1}</span>
-      <span class="nm"><b>${s.name}</b>${s.manta?' 🐋':''}${s.drift?' 🌀':''} <a href="https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}" target="_blank" onclick="event.stopPropagation()" title="Googleマップで開く" style="font-size:.72rem;text-decoration:none">📍地図</a><div class="a">${s.area} · ${s.depth} · ${s.beg?'初心者OK':'経験者向け'}</div></span>
+      <span class="nm"><b>${s.name}</b>${s.manta?' 🐋':''}${s.drift?' 🌀':''}${s.restricted?' <span style="color:var(--g50);font-size:.66rem;font-weight:800">⚠️エントリー制限</span>':''} <a href="https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}" target="_blank" onclick="event.stopPropagation()" title="Googleマップで開く" style="font-size:.72rem;text-decoration:none">📍地図</a><div class="a">${s.area} · ${s.depth} · ${s.beg?'初心者OK':'経験者向け'}${s.restricted?' ・ 月に約7日のみエントリー可（潮回り）— 現地ショップの潮汐表必須':''}</div></span>
       ${c?`<span class="cond">波 ${c.eff.wave.toFixed(1)}m ・ うねり ${c.eff.swell.toFixed(1)}m@${(c.eff.swellT??0).toFixed(0)}s ${arrowSpan(c.eff.swDir,'var(--g60)')}<br>風 ${dirName(c.eff.wdir)} ${c.eff.windKt?.toFixed(0)}kt ${arrowSpan(c.eff.wdir!=null?c.eff.wdir+180:null)} ・ 海流 ${c.eff.curKt!=null?c.eff.curKt.toFixed(1)+'kt':'N/A'} ${arrowSpan(c.eff.curDir,'var(--g80)')}</span>`:''}
       <span class="sc" style="color:${gcol(x.score)}">${x.score}</span>
       <span class="gr" style="color:${gcol(x.score)}">${grade(x.score)}<br>${gradeKo(x.score)}</span>
@@ -1009,7 +1028,7 @@ function initMap(){
       const s=SITES[x.si],sc=Math.round(x.score);
       const col=getComputedStyle(document.documentElement).getPropertyValue(gcol(sc).slice(4,-1)).trim()||'#888';
       L.circleMarker([s.lat,s.lon],{radius:10,color:col,fillColor:col,fillOpacity:.85,weight:2})
-        .addTo(MAP).bindPopup(`<b>${s.name}</b> ${s.manta?'🐋':''}<br>${dayName(activeDay)} 総合 <b>${sc}点</b> · ${grade(sc)} ${gradeKo(sc)}<br><span style="font-size:.75em">${s.area} · ${s.depth} ・ 座標は近似値（UNVERIFIED）</span><br><a href="https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}" target="_blank">📍 Googleマップで開く</a>`);
+        .addTo(MAP).bindPopup(`<b>${s.name}</b> ${s.manta?'🐋':''}<br>${dayName(activeDay)} 総合 <b>${sc}点</b> · ${grade(sc)} ${gradeKo(sc)}${s.restricted?'<br>⚠️ エントリー日制限 — 現地ショップの潮汐表を確認':''}<br><span style="font-size:.75em">${s.area} · ${s.depth} ・ 座標は近似値（UNVERIFIED）</span><br><a href="https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}" target="_blank">📍 Googleマップで開く</a>`);
     });
   }catch(e){el.outerHTML='<div class="mapfallback">地図の初期化に失敗: '+e.message+'</div>'}
 }
