@@ -54,7 +54,7 @@ button{font-family:inherit}
 .banner b{color:#ffd479}
 .summary{background:linear-gradient(135deg,#0e2740,#0c1c2b);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0;font-size:.95rem}
 /* 3-day outlook */
-.outlook{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.outlook{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
 .oday{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 10px;text-align:center;position:relative;cursor:pointer}
 .oday.active{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
 .oday.star{border-color:var(--g90)}
@@ -73,7 +73,7 @@ button{font-family:inherit}
 /* manta */
 .manta{background:linear-gradient(135deg,#0d2136,#101c2e);border:1px solid #2b4a68;border-radius:14px;padding:14px}
 .manta h3{font-size:.95rem;letter-spacing:.08em}
-.manta .mdays{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.manta .mdays{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin:10px 0}
 .manta .md{background:#0a1826;border:1px solid var(--line);border-radius:10px;text-align:center;padding:8px;position:relative}
 .manta .md.star{border-color:var(--g90)}
 .manta .md .bd{position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:var(--g90);color:#03271a;font-size:.58rem;font-weight:800;padding:1px 7px;border-radius:10px;white-space:nowrap}
@@ -226,7 +226,8 @@ iPhoneで実行する方法:<br>
 </header></div>
 <div class="updated" id="updated">データ読み込み中…</div>
 <div class="settings" id="setrow" style="display:none">
-  <label>ダイビング開始日（金） <input type="date" id="startDate"></label>
+  <label>ダイビング開始日 <input type="date" id="startDate"></label>
+  <label>ダイビング終了日 <input type="date" id="endDate"></label>
   <label>ダイバーレベル
     <select id="diverLevel">
       <option value="beginner">Beginner / Open Water</option>
@@ -262,7 +263,7 @@ iPhoneで実行する方法:<br>
   <b style="color:var(--text)">⚠️ SAFETY DISCLAIMER</b><br>
   本システムのスコアは気象・海洋データを総合した<b>参考指標</b>です。実際のダイビング可否、ポイント選定、出航判断は<b>現地ダイビングオペレーターと船長の判断を優先</b>してください。
   「完全に安全」は存在せず、本システムは有利/不利（Favorable/Challenging）のみを評価します。<br>
-  ✈️ 飛行前ダイビング禁止: 月曜13:00出発の場合、反復ダイビング後は最低18時間（保守的には24時間）を確保 — 日曜夜19:00（保守的には13:00）までに終了。
+  ✈️ 飛行前ダイビング禁止: 帰国便の出発時刻を基準に、反復ダイビング後は最低18時間（保守的には24時間）前までに最後のダイビングを終了してください。
 </div>
 </div>
 
@@ -355,6 +356,7 @@ async function collect(start,end){
     current:fetch(`https://api.open-meteo.com/v1/forecast?latitude=${H.lat}&longitude=${H.lon}&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,wind_gusts_10m,wind_direction_10m,pressure_msl,precipitation,weather_code,cloud_cover&wind_speed_unit=kn&timezone=Asia%2FTokyo`).then(r=>r.json()),
     jmaText:fetch('https://www.jma.go.jp/bosai/forecast/data/overview_forecast/474000.json').then(r=>r.json()),
     jmaFc:fetch('https://www.jma.go.jp/bosai/forecast/data/forecast/474000.json').then(r=>r.json()),
+    tide:fetch(`https://marine-api.open-meteo.com/v1/marine?latitude=${H.lat}&longitude=${H.lon}&hourly=sea_level_height_msl&timezone=Asia%2FTokyo&start_date=${start}&end_date=${end}`).then(r=>r.json()),
   };
   const keys=Object.keys(jobs);
   const res=await Promise.allSettled(keys.map(k=>jobs[k]));
@@ -622,7 +624,7 @@ function makeBriefText(){
   if(c)s.push(`現在の石垣島は<b>${wmoKo(c.weather_code)}</b>、気温${c.temperature_2m?.toFixed(1)}°C（体感${c.apparent_temperature?.toFixed(1)}°C）、${dirName(c.wind_direction_10m)}風${c.wind_speed_10m?.toFixed(0)}kt（突風${c.wind_gusts_10m?.toFixed(0)}kt）です。`);
   if(fc&&fc.days[0])s.push(`気象庁の公式予報（石垣島地方）は本日「<b>${fc.days[0].weather}</b>」、波「<b>${fc.days[0].wave}</b>」${fc.days[0].pop!=null?`、降水確率${fc.days[0].pop}%`:''}です。`);
   if(t&&t.bestDay){
-    s.push(`旅行3日間のうち<b>${dayName(t.bestDay.i)}</b>が${t.bestDay.d.overall}点で最も有利、おすすめ時間帯は<b>${t.bestDay.d.win?fmtWin(t.bestDay.d.win):'-'}</b>です。`);
+    s.push(`旅行${DAYS.length}日間のうち<b>${dayName(t.bestDay.i)}</b>が${t.bestDay.d.overall}点で最も有利、おすすめ時間帯は<b>${t.bestDay.d.win?fmtWin(t.bestDay.d.win):'-'}</b>です。`);
     const kc0=keyConds(t.bestDay.i);
     if(kc0)s.push(`この日の最適ポイント（${kc0.site.name}）基準で波高約${kc0.wave?.toFixed(1)}m、うねり${kc0.swell?.toFixed(1)}m@${kc0.swellT?.toFixed(0)}s、水温${kc0.sst?.toFixed(1)}°Cの見込みです。`);
   }
@@ -660,6 +662,90 @@ function renderBriefing(){
   }
   return h+'</div>';
 }
+/* ---------------- TIDE ENGINE (조위 · 물때 · 달 위상) ---------------- */
+const SYNODIC=29.530588853;
+function moonAge(d){ /* 월령: 2000-01-06 18:14 UTC 신월 기준 천문 계산 */
+  const ref=Date.UTC(2000,0,6,18,14)/86400000;
+  return (((d.getTime()/86400000-ref)%SYNODIC)+SYNODIC)%SYNODIC;
+}
+function moonPhase(d){ /* 달 위상 아이콘·이름·조명률 */
+  const a=moonAge(d);
+  const illum=Math.round((1-Math.cos(2*Math.PI*a/SYNODIC))/2*100);
+  const seg=[[1.85,'🌑','新月'],[5.54,'🌒','三日月'],[9.23,'🌓','上弦の月'],[12.91,'🌔','満ちゆく月'],[16.61,'🌕','満月'],[20.30,'🌖','欠けゆく月'],[23.99,'🌗','下弦の月'],[27.68,'🌘','有明の月'],[99,'🌑','新月']];
+  const s=seg.find(x=>a<x[0]);
+  return {age:a,illum,icon:s[1],name:s[2]};
+}
+function tideAgeName(d){ /* 물때 (음력일 기반 대조~소조 구분, 표준 조견표) */
+  const day=Math.floor(moonAge(d))+1;
+  if(day<=3||(day>=15&&day<=18))return{kr:'大潮',lv:3};
+  if((day>=8&&day<=10)||(day>=23&&day<=25))return{kr:'小潮',lv:1};
+  if(day===11||day===26)return{kr:'長潮',lv:1};
+  if(day===12||day===27)return{kr:'若潮',lv:2};
+  return{kr:'中潮',lv:2};
+}
+function tideExtremes(ds){ /* 만조·간조 시각: 시간별 조위 극값 + 포물선 꼭짓점 보간 */
+  const t=RAW.tide&&RAW.tide.hourly;if(!t)return null;
+  const v=t.sea_level_height_msl,out=[];
+  for(let i=1;i<t.time.length-1;i++){
+    if(!t.time[i].startsWith(ds))continue;
+    if(v[i]==null||v[i-1]==null||v[i+1]==null)continue;
+    const isMax=v[i]>=v[i-1]&&v[i]>v[i+1],isMin=v[i]<=v[i-1]&&v[i]<v[i+1];
+    if(!isMax&&!isMin)continue;
+    const a=v[i-1],b=v[i],c=v[i+1],den=a-2*b+c;
+    let off=den!==0?clamp((a-c)/(2*den),-0.5,0.5):0;
+    const hval=b-(a-c)*off/4;
+    let H=+t.time[i].slice(11,13),M=Math.round(off*60);
+    if(M<0){H-=1;M+=60}if(M>=60){H+=1;M-=60}H=clamp(H,0,23);
+    out.push({type:isMax?'high':'low',time:`${String(H).padStart(2,'0')}:${String(M).padStart(2,'0')}`,hour:H+M/60,h:hval});
+  }
+  return out;
+}
+function tideNow(){ /* 현재 조위 + 상승/하강 */
+  const t=RAW.tide&&RAW.tide.hourly;if(!t)return null;
+  const now=new Date(),key=fmtD(now)+'T'+String(now.getHours()).padStart(2,'0');
+  const i=t.time.findIndex(x=>x.startsWith(key));
+  if(i<0||t.sea_level_height_msl[i]==null)return null;
+  const nx=t.sea_level_height_msl[i+1];
+  return {h:t.sea_level_height_msl[i],rising:nx!=null?nx>t.sea_level_height_msl[i]:null};
+}
+function renderTide(){
+  const t=RAW.tide&&RAW.tide.hourly;
+  let h=`<h2>🌊 <b>TIDE — 潮汐・潮回り・月</b> <span class="tag">FORECAST · MODEL</span></h2><div class="brief">`;
+  if(!t)return h+`<div class="small">潮位データを取得できませんでした。 <a href="https://www.data.jma.go.jp/kaiyou/db/tide/suisan/index.php" target="_blank">気象庁潮位表で直接確認 →</a></div></div>`;
+  const tn=tideNow();
+  if(tn)h+=`<div class="small" style="margin-bottom:8px">現在の潮位 <b style="color:var(--accent)">${tn.h.toFixed(2)}m</b>${tn.rising!=null?(tn.rising?' ・ 上げ潮（上昇中）↑':' ・ 下げ潮（下降中）↓'):''}</div>`;
+  h+=`<table class="jmafc"><tr><th>日付</th><th>潮回り</th><th>月</th><th>満潮</th><th>干潮</th><th>潮差</th></tr>`;
+  DAYS.forEach((ds,di)=>{
+    const ex=tideExtremes(ds)||[],hi=ex.filter(x=>x.type==='high'),lo=ex.filter(x=>x.type==='low');
+    const ta=tideAgeName(DAYS_DATE[di]),mp=moonPhase(DAYS_DATE[di]);
+    const hs=ex.map(x=>x.h),range=hs.length?(Math.max(...hs)-Math.min(...hs)).toFixed(1)+'m':'-';
+    h+=`<tr><th>${dayName(di)}</th>
+      <td><b style="color:${ta.lv===3?'var(--g50)':ta.lv===1?'var(--g90)':'var(--text)'}">${ta.kr}</b></td>
+      <td>${mp.icon} ${mp.name}<br><span style="color:var(--dim)">月齢 ${mp.age.toFixed(1)} · ${mp.illum}%</span></td>
+      <td>${hi.map(x=>`${x.time} <span style="color:var(--dim)">(${x.h.toFixed(1)}m)</span>`).join('<br>')||'-'}</td>
+      <td>${lo.map(x=>`${x.time} <span style="color:var(--dim)">(${x.h.toFixed(1)}m)</span>`).join('<br>')||'-'}</td>
+      <td>${range}</td></tr>`;
+  });
+  h+=`</table>`;
+  const ds=DAYS[activeDay],idx=[];
+  t.time.forEach((x,i)=>{if(x.startsWith(ds))idx.push(i)});
+  const vals=idx.map(i=>t.sea_level_height_msl[i]).filter(v=>v!=null);
+  if(vals.length>3){
+    const mn=Math.min(...vals),mxv=Math.max(...vals),sp=(mxv-mn)||1;
+    const X=hh=>hh*480/23,Y=v=>76-((v-mn)/sp)*60;
+    const pts=vals.map((v,k)=>`${X(k)},${Y(v)}`).join(' ');
+    const ex=tideExtremes(ds)||[];
+    h+=`<div class="small" style="margin:10px 0 4px">${dayName(activeDay)} 潮位曲線 <span style="color:var(--accent)">■ ダイビング時間帯（08〜17時）</span></div>
+    <svg viewBox="0 0 480 92" style="width:100%;height:auto;display:block">
+      <rect x="${X(8)}" y="4" width="${X(17)-X(8)}" height="80" fill="rgba(56,198,234,.09)"/>
+      <polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="2"/>
+      ${ex.map(x=>`<circle cx="${X(x.hour)}" cy="${Y(x.h)}" r="3.5" fill="${x.type==='high'?'var(--g50)':'var(--g90)'}"/><text x="${X(x.hour)}" y="${x.type==='high'?Y(x.h)-7:Y(x.h)+15}" text-anchor="middle" font-size="9" fill="var(--text)">${x.type==='high'?'満':'干'} ${x.time}</text>`).join('')}
+      ${[0,6,12,18].map(hh=>`<text x="${X(hh)}" y="91" font-size="8" fill="var(--dim)">${hh}時</text>`).join('')}
+    </svg>`;
+  }
+  h+=`<div class="small" style="margin-top:8px">💡 満潮・干潮の前後±1時間は潮流が弱まる<b>スラックタイム</b>で、ドリフトポイントのエントリーに有利です。<b>大潮</b>の時期は潮差・潮流が大きくなり、マンタポイントは潮が流れている時に活発な傾向が知られています（一般情報）。潮位は海面モデルの予測値 — 航海用の公式潮位は<a href="https://www.data.jma.go.jp/kaiyou/db/tide/suisan/index.php" target="_blank">気象庁潮位表</a>でご確認ください。</div></div>`;
+  return h;
+}
 /* ================================================================ RENDER */
 function dayName(i){const d=DAYS_DATE[i];return `${d.getMonth()+1}/${d.getDate()}(${DOW[d.getDay()]})`}
 let DAYS_DATE=[];
@@ -672,14 +758,14 @@ function render(){
   if(t.bestDay){
     const bd=t.bestDay,md=t.bestManta;
     const worst=t.days.map((d,i)=>({d,i})).filter(x=>x.d.overall!=null).reduce((a,b)=>!a||b.d.overall<a.d.overall?b:a,null);
-    let s=`現在3日間のうち<b>${dayName(bd.i)}</b>のダイビング条件が最も良好です（${bd.d.overall}点）。`;
+    let s=`現在${DAYS.length}日間のうち<b>${dayName(bd.i)}</b>のダイビング条件が最も良好です（${bd.d.overall}点）。`;
     if(md&&md.d.manta.win)s+=` マンタポイントは<b>${dayName(md.i)} ${String(md.d.manta.win.from).padStart(2,'0')}:00–${String(md.d.manta.win.to).padStart(2,'0')}:00</b>が最も有利です。`;
     if(worst&&worst.i!==bd.i){const r=whyNot100(worst.i);
       s+=` ${dayName(worst.i)}は${r.loss[0]?r.loss[0].label+'の影響で':''}相対的に不利です。`}
     html+=`<div class="summary">🧭 ${s}</div>`;
   }
   /* SECTION 1: 3-DAY OUTLOOK */
-  html+=`<h2>📅 <b>3-DAY DIVE OUTLOOK</b> <span class="tag live">LIVE FORECAST</span></h2><div class="outlook">`;
+  html+=`<h2>📅 <b>${DAYS.length}-DAY DIVE OUTLOOK</b> <span class="tag live">LIVE FORECAST</span></h2><div class="outlook">`;
   t.days.forEach((d,i)=>{
     const star=t.bestDay&&t.bestDay.i===i;
     const s=d.overall;
@@ -772,6 +858,8 @@ function render(){
     html+='</div>';
   }
   html+='</div></div>';
+  /* TIDE 섹션 */
+  html+=renderTide();
   /* 결정 카드 + Boat comfort */
   html+=`<h2>🧭 <b>DECISION CARDS</b></h2><div class="dcards">`;
   if(t.bestDay)html+=`<div class="dcard"><div class="q">1日だけダイビングするなら</div><div class="a">${dayName(t.bestDay.i)}</div><div class="d">${t.bestDay.d.overall}点 ・ ${grade(t.bestDay.d.overall)}</div></div>`;
@@ -783,7 +871,7 @@ function render(){
   html+='</div>';
   /* 비교 테이블 (§58) + 모델 비교 (데스크탑 2열) */
   html+='<div class="duo"><div>';
-  html+=`<h2>📊 <b>3-DAY COMPARISON</b></h2><div class="tblwrap"><table class="ctable"><tr><th></th>${t.days.map((d,i)=>`<th>${dayName(i)}</th>`).join('')}</tr>`;
+  html+=`<h2>📊 <b>${DAYS.length}-DAY COMPARISON</b></h2><div class="tblwrap"><table class="ctable"><tr><th></th>${t.days.map((d,i)=>`<th>${dayName(i)}</th>`).join('')}</tr>`;
   const rows=[
     ['Overall',i=>t.days[i].overall??'-'],
     ['Manta',i=>t.days[i].manta.day??'-'],
@@ -902,7 +990,8 @@ function renderSources(){
   <div class="srow"><b>Windy</b> <span class="tag">MAP EMBED ONLY</span><div class="f">公式embedウィジェットの可視化のみ使用（Point APIは有料キー必要 → 未接続）</div></div>
   <div class="srow"><b>Azure Maps Weather</b> <span class="tag off">NOT CONNECTED</span><div class="f">サブスクリプションキー必要 ・ marine変数なし → 導入時はクロス検証用</div></div>
   <div class="srow"><b>Copernicus Marine</b> <span class="tag off">NOT CONNECTED</span><div class="f">認証必要 ・ Open-Meteo Marineが同系列モデルを再配布（間接使用）</div></div>
-  <div class="srow"><b>潮汐・潮流（Tide/Tidal Current）</b> <span class="tag off">DATA UNAVAILABLE</span><div class="f">公開CORS API不在 — 数値非表示（§64）、気象庁潮位表リンクで代替。海流（Ocean Current）とは区別（§35）</div></div>
+  <div class="srow"><b>潮位・潮回り・月（Open-Meteo Sea Level + 天文計算）</b> <span class="tag live">LIVE · MODEL</span><div class="f">海面モデル → 満潮・干潮時刻/潮位、月齢ベースの潮回り・月相 ・ 取得 ${f('tide')} ・ 公式潮位は気象庁潮位表</div></div>
+  <div class="srow"><b>潮流（Tidal Current）</b> <span class="tag off">DATA UNAVAILABLE</span><div class="f">公開API不在 — 数値非表示（§64）、スラックタイムは潮汐の一般則のみ案内。海流（Ocean Current）とは区別（§35）</div></div>
   </div>
   <div class="small" style="margin-top:8px">既知の限界: ① 海洋モデルの格子解像度によりリーフ内側の実際の波はより穏やかな場合あり ② ポイント座標は近似値（UNVERIFIED） ③ 水中視界は推定値 ④ 波浪は単一モデル。Scoring Engine v2.0 ・ すべてのスコアは決定論的・監査可能（ランキング行をタップしてBreakdown確認）。</div>`;
 }
@@ -930,13 +1019,20 @@ const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},
 function getLevel(){return store.get('idi_level')||'experienced'}
 function applySettings(){
   store.set('idi_start',$('#startDate').value);
+  store.set('idi_end',$('#endDate').value);
   store.set('idi_level',$('#diverLevel').value);
+  window.__userPicked=false;activeDay=0;
   loadAll();
 }
 function getStart(){
   const s=store.get('idi_start');
   if(s){const d=new Date(s+'T00:00:00');if(!isNaN(d))return d}
   return defFriday();
+}
+function getEnd(start){
+  const s=store.get('idi_end');
+  if(s){const d=new Date(s+'T00:00:00');if(!isNaN(d))return d}
+  return addD(start,2); // 기본 3일 (금~일)
 }
 let LAST_UPDATE=null,NEXT_AUTO=null;
 function tickUpdChip(){
@@ -953,18 +1049,24 @@ async function loadAll(){
   $('#error').innerHTML='';
   $('#app').innerHTML='<div class="loading">⏳ 海洋・気象・警報データを取得しています…</div>';
   const start=getStart();
-  DAYS_DATE=[0,1,2].map(n=>addD(start,n));
+  let end=getEnd(start);
+  if(end<start)end=start;
+  let n=Math.round((end-start)/86400000)+1;
+  if(n>8){n=8;end=addD(start,7)} // 해양예보 범위(≈8일) 한계
+  DAYS_DATE=Array.from({length:n},(_,i)=>addD(start,i));
   DAYS=DAYS_DATE.map(fmtD);
+  if(activeDay>=n)activeDay=0;
   $('#startDate').value=fmtD(start);
+  $('#endDate').value=DAYS[n-1];
   $('#diverLevel').value=getLevel();
   try{
-    RAW=await collect(DAYS[0],DAYS[2]);
+    RAW=await collect(DAYS[0],DAYS[n-1]);
     MX=buildMatrix(DAYS);
     TRIP=computeTrip();
     if(TRIP.bestDay&&activeDay===0&&!window.__userPicked)activeDay=0;
     store.set('idi_cache_ts',new Date().toISOString());
     LAST_UPDATE=new Date();NEXT_AUTO=Date.now()+CONFIG.autoRefreshMin*60*1000;
-    $('#updated').innerHTML=`ダイビング: <b>${DAYS[0]} (${DOW[DAYS_DATE[0].getDay()]}) ~ ${DAYS[2]} (${DOW[DAYS_DATE[2].getDay()]})</b> ・ 帰国 ${fmtD(addD(start,3))} 13:00 ・ 更新 ${LAST_UPDATE.toLocaleTimeString('ja-JP')} ・ レベル: ${getLevel()} ・ <span class="tag live">ALL LIVE DATA</span>`;
+    $('#updated').innerHTML=`ダイビング: <b>${DAYS[0]} (${DOW[DAYS_DATE[0].getDay()]}) ~ ${DAYS[DAYS.length-1]} (${DOW[DAYS_DATE[DAYS.length-1].getDay()]}) ・ ${DAYS.length}日間</b> ・ 更新 ${LAST_UPDATE.toLocaleTimeString('ja-JP')} ・ レベル: ${getLevel()} ・ <span class="tag live">ALL LIVE DATA</span>`;
     render();
   }catch(e){
     const last=store.get('idi_cache_ts');
