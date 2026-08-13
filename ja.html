@@ -180,6 +180,57 @@ button{font-family:inherit}
 .linkgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
 .linkgrid a{display:block;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px;color:var(--text);text-decoration:none;font-size:.82rem}
 .linkgrid a small{display:block;color:var(--dim);font-size:.68rem}
+/* ---- v2.0: 추천 모드 / 해양생물 ---- */
+.modes{margin:14px 0 4px}
+.modes .mq{font-size:.72rem;letter-spacing:.12em;color:var(--dim);margin-bottom:8px;font-weight:700}
+.mbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mbtn{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:13px 12px;
+  cursor:pointer;color:var(--dim);text-align:left;font-size:.95rem;font-weight:800}
+.mbtn span{display:block;font-size:.72rem;font-weight:400;margin-top:3px}
+.mbtn.active{border-color:var(--accent);background:var(--panel2);color:var(--text);box-shadow:0 0 0 1px var(--accent) inset}
+.tchips{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}
+.tchip{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:7px 13px;
+  cursor:pointer;color:var(--dim);font-size:.82rem}
+.tchip.active{border-color:var(--accent);background:var(--panel2);color:var(--text);font-weight:700}
+.tchip .lim{font-size:.58rem;color:var(--g50);margin-left:3px}
+.prio{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 12px;font-size:.76rem}
+.prio button{background:var(--panel);border:1px solid var(--line);color:var(--dim);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:.76rem}
+.prio button.active{border-color:var(--accent);color:var(--text);background:var(--panel2)}
+.mtitle{display:flex;align-items:center;gap:8px;margin:16px 0 8px;font-size:1rem}
+.mtitle .dc{font-size:.62rem;padding:1px 8px;border-radius:10px;border:1px solid var(--line);color:var(--dim)}
+.mrow{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:8px}
+.mrow.top{border-color:var(--accent)}
+.mrow .hd{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.mrow .no{font-weight:800;color:var(--dim)}
+.mrow .nm{font-weight:700;flex:1;min-width:120px}
+.mrow .nm .st{font-size:.66rem;color:var(--dim);font-weight:400}
+.dual{display:flex;gap:12px;align-items:center}
+.dual .d{text-align:center}
+.dual .d .k{font-size:.58rem;color:var(--dim);letter-spacing:.05em}
+.dual .d .v{font-size:1.15rem;font-weight:800}
+.reclab{font-size:.64rem;font-weight:800;padding:3px 9px;border-radius:10px;white-space:nowrap}
+.mrow .meta{font-size:.72rem;color:var(--dim);margin-top:5px}
+.whybtn{margin-top:8px;background:none;border:1px solid var(--line);color:var(--dim);border-radius:7px;padding:4px 11px;font-size:.7rem;cursor:pointer}
+.whybox{display:none;margin-top:9px;border-top:1px dashed var(--line);padding-top:9px;font-size:.76rem}
+.mrow.open .whybox{display:block}
+.whybox .p{color:var(--g80);margin-top:3px}
+.whybox .n{color:var(--g50);margin-top:3px}
+.planb{background:linear-gradient(135deg,#10321f,#0c1c2b);border:1px solid var(--g90);border-radius:12px;padding:13px 15px;margin:10px 0;font-size:.85rem}
+.planb b{color:var(--g90)}
+.picks{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:12px}
+.picks .pk{display:flex;align-items:center;gap:9px;padding:6px 0;border-bottom:1px solid #12253a;font-size:.84rem;flex-wrap:wrap}
+.picks .pk:last-child{border-bottom:none}
+.picks .pk .medal{width:26px}
+.picks .pk .tn{flex:1;min-width:110px;font-weight:600}
+.picks .pk .site{color:var(--dim);font-size:.74rem}
+.mdaycmp{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 2px}
+.mdaycmp .dch{background:#0a1826;border:1px solid var(--line);border-radius:9px;padding:5px 11px;font-size:.74rem;text-align:center}
+.mdaycmp .dch b{display:block;font-size:.95rem}
+.mdaycmp .dch.best{border-color:var(--g90)}
+.maptog{display:flex;gap:6px;margin-bottom:8px}
+.maptog button{background:var(--panel);border:1px solid var(--line);color:var(--dim);border-radius:8px;padding:6px 13px;cursor:pointer;font-size:.78rem}
+.maptog button.active{border-color:var(--accent);color:var(--text);background:var(--panel2)}
+.ticons{font-size:.8rem;letter-spacing:1px}
 /* briefing */
 .brief{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
 .brief .txt{font-size:.9rem;line-height:1.75}
@@ -218,6 +269,14 @@ button{font-family:inherit}
   .rrow .nm .a{font-size:.62rem}
   .conds{grid-template-columns:repeat(2,1fr)}
   .ctable th,.ctable td{padding:5px 6px;font-size:.72rem}
+  .mbtns{grid-template-columns:1fr}
+  .mrow .hd{gap:6px}
+  .dual{gap:8px;width:100%;justify-content:space-between;order:3}
+  .dual .d .v{font-size:1rem}
+  .reclab{order:2}
+  .mrow .nm{order:1}
+  .picks .pk{gap:6px}
+  .picks .pk .dual{width:auto;order:0}
 }
 @media(max-width:380px){
   .hoursel button{padding:3px 6px;font-size:.62rem}
@@ -237,7 +296,7 @@ iPhoneで実行する方法:<br>
 </div></noscript>
 <div class="topbar"><header>
   <h1>ISHIGAKI <span>DIVE INTELLIGENCE</span></h1>
-  <span class="credit">制作者 <b>Dr. Min &amp; Kim</b> · 作成日 2026-08-12 · <b>ver 1.0</b></span>
+  <span class="credit">制作者 <b>Dr. Min &amp; Kim</b> · 作成日 2026-08-12 · <b>ver 2.0</b></span>
   <div class="hbtns">
     <div class="updchip" id="updChip">未更新</div>
     <button class="btn" id="refreshBtn" onclick="loadAll()">🔄 リアルタイム更新</button>
@@ -284,6 +343,7 @@ iPhoneで実行する方法:<br>
 </div>
 
 <div id="guideSec"></div>
+<div id="changelogSec"></div>
 <div class="note" id="disclaimer">
   <b style="color:var(--text)">⚠️ SAFETY DISCLAIMER</b><br>
   本システムのスコアは気象・海洋データを総合した<b>参考指標</b>です。実際のダイビング可否、ポイント選定、出航判断は<b>現地ダイビングオペレーターと船長の判断を優先</b>してください。
@@ -340,6 +400,8 @@ const SITES=[
 ];
 /* ================================================================ utils */
 const $=s=>document.querySelector(s);
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},
+             set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 const DOW=['日','月','火','水','木','金','土'];
 const fmtD=d=>d.toISOString().slice(0,10);
 const addD=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
@@ -777,6 +839,209 @@ function renderTide(){
   h+=`<div class="small" style="margin-top:8px">💡 満潮・干潮の前後±1時間は潮流が弱まる<b>スラックタイム</b>で、ドリフトポイントのエントリーに有利です。<b>大潮</b>の時期は潮差・潮流が大きくなり、マンタポイントは潮が流れている時に活発な傾向が知られています（一般情報）。潮位は海面モデルの予測値 — 航海用の公式潮位は<a href="https://www.data.jma.go.jp/kaiyou/db/tide/suisan/index.php" target="_blank">気象庁潮位表</a>でご確認ください。</div></div>`;
   return h;
 }
+/* ================================================================
+   v2.0 MARINE LIFE TARGET ENGINE
+   원칙：出現確率ではなく "Target Suitability(목표 적합도)" · Safety Gate 적용 ·
+   근거 없는 배정 금지(불확실 → LIMITED DATA) · 관찰은 보장되지 않음
+================================================================ */
+const TARGETS=[
+{id:'tmanta',icon:'🐋',name:'マンタ (Manta Ray)',cat:'LARGE',conf:'HIGH',season:[6,7,8,9,10,11],peak:[9,10,11],
+ note:'川平クリーニングステーション夏〜秋・ヨナラ水道9〜11月が最盛期',
+ sites:[{id:'mantacity',s:'PRIMARY'},{id:'mantascr',s:'PRIMARY'},{id:'kabira',s:'PRIMARY'},{id:'yonara',s:'GOOD',note:'エントリー制限・9〜11月が最盛期'}]},
+{id:'tturtle',icon:'🐢',name:'ウミガメ (Green Sea Turtle)',cat:'LARGE',conf:'HIGH',season:null,
+ note:'通年観察 — 大崎が代表的なカメポイントとして知られる',
+ sites:[{id:'osaki',s:'PRIMARY'},{id:'kuroN',s:'GOOD'},{id:'kuroS',s:'GOOD'},{id:'yonehara',s:'POSSIBLE'}]},
+{id:'tshark',icon:'🦈',name:'ホワイトチップリーフシャーク',cat:'LARGE',conf:'LIMITED',season:null,
+ note:'外洋リーフで散発的に観察 — 検証データ限定的',
+ sites:[{id:'kuroN',s:'POSSIBLE'},{id:'kuroS',s:'POSSIBLE'},{id:'iriomoteE',s:'POSSIBLE'}]},
+{id:'tribbon',icon:'🐍',name:'リボンイール (Ribbon Eel)',cat:'REEF',conf:'LIMITED',season:null,
+ note:'砂地とリーフの境界に生息 — サイト別の検証データ限定的',
+ sites:[{id:'osaki',s:'POSSIBLE'},{id:'arakawa',s:'POSSIBLE'},{id:'nagura',s:'POSSIBLE'}]},
+{id:'tbatfish',icon:'🐟',name:'バットフィッシュ (Longfin Batfish)',cat:'REEF',conf:'MEDIUM',season:null,
+ note:'名蔵湾一帯で群れの観察報告',
+ sites:[{id:'nagura',s:'GOOD'},{id:'arakawa',s:'POSSIBLE'}]},
+{id:'tcroc',icon:'🐊',name:'クロコダイルフィッシュ',cat:'MACRO',conf:'LIMITED',season:null,
+ note:'砂底とサンゴの境界 — 検証データ限定的',
+ sites:[{id:'nagura',s:'POSSIBLE'},{id:'arakawa',s:'POSSIBLE'},{id:'taketomiS',s:'POSSIBLE'}]},
+{id:'tboxfish',icon:'🟡',name:'キイロハコフグ幼魚',cat:'MACRO',conf:'LIMITED',season:null,
+ note:'浅いリーフ・マクロポイント — 検証データ限定的',
+ sites:[{id:'nagura',s:'POSSIBLE'},{id:'sukuji',s:'POSSIBLE'}]},
+{id:'tnudi',icon:'🐌',name:'ウミウシ (Nudibranch)',cat:'MACRO',conf:'MEDIUM',season:null,
+ note:'マクロポイント全般 — 冬〜春に種の多様性が増加する傾向',
+ sites:[{id:'nagura',s:'GOOD'},{id:'arakawa',s:'GOOD'},{id:'taketomiS',s:'POSSIBLE'},{id:'miyara',s:'POSSIBLE'}]},
+{id:'tcuttle',icon:'🦑',name:'コブシメ (大型甲イカ)',cat:'MACRO',conf:'LIMITED',season:[12,1,2,3,4],
+ note:'冬〜春の産卵期に観察報告 — 夏はオフシーズン',
+ sites:[{id:'nagura',s:'POSSIBLE'}]},
+{id:'tcoral',icon:'🪸',name:'サンゴ庭園 (Coral Garden)',cat:'SCENERY',conf:'HIGH',season:null,
+ note:'米原サンゴ庭園・白保の青サンゴ群落(世界的規模)',
+ sites:[{id:'yonehara',s:'PRIMARY'},{id:'shiraho',s:'PRIMARY'},{id:'sukuji',s:'GOOD'},{id:'taketomiS',s:'GOOD'},{id:'kuroN',s:'GOOD'}]},
+{id:'tschool',icon:'🐠',name:'魚群 (Fish School)',cat:'SCENERY',conf:'MEDIUM',season:null,
+ note:'リーフの縁・潮流のあるポイントで群れを形成する傾向',
+ sites:[{id:'yonehara',s:'GOOD'},{id:'osaki',s:'GOOD'},{id:'kuroN',s:'GOOD'},{id:'iriomoteE',s:'POSSIBLE'}]},
+];
+/* 사이트 → 대표 타깃 아이콘 (PRIMARY/GOOD만) */
+const SITE_TARGETS={};TARGETS.forEach(t=>t.sites.forEach(r=>{if(r.s!=='POSSIBLE')(SITE_TARGETS[r.id]=SITE_TARGETS[r.id]||[]).push(t.icon)}));
+/* 우선순위 가중치 (§33, config) */
+const PRIO_W={target:{m:.50,sea:.25,ssn:.15,cf:.10},cond:{m:.25,sea:.50,ssn:.10,cf:.15},balanced:{m:.35,sea:.35,ssn:.15,cf:.15}};
+const STRENGTH={PRIMARY:100,GOOD:75,POSSIBLE:50};
+const STR_KO={PRIMARY:'代表ポイント',GOOD:'主要ポイント',POSSIBLE:'観察可能'};
+const STR_STAR={PRIMARY:'★★★★★',GOOD:'★★★★',POSSIBLE:'★★★'};
+const REC_KO={HIGHLY_RECOMMENDED:'積極的に推薦',RECOMMENDED:'推薦',POSSIBLE:'可能',NOT_RECOMMENDED:'非推薦',AVOID:'回避'};
+function recColor(r){return r==='HIGHLY_RECOMMENDED'?'var(--g90)':r==='RECOMMENDED'?'var(--g80)':r==='POSSIBLE'?'var(--g60)':'var(--g0)'}
+function seasonScore(t,date){const m=date.getMonth()+1;
+  if(!t.season)return 80;
+  if(t.peak&&t.peak.includes(m))return 100;
+  return t.season.includes(m)?90:40}
+function dataConfScore(c){return c==='HIGH'?95:c==='MEDIUM'?75:55}
+/* 생물 적합도 (해황 제외 — "見られる確率"이 아님) */
+function targetSuitability(t,rel,date){
+  return Math.round(STRENGTH[rel.s]*0.6+seasonScore(t,date)*0.25+dataConfScore(t.conf)*0.15)}
+/* 최종 추천 점수: 우선순위 가중 + 접근성 + Safety Gate(§11·§34) */
+function marineFinal(t,rel,di,seaScore){
+  const w=PRIO_W[PRIORITY]||PRIO_W.balanced;
+  let f=STRENGTH[rel.s]*w.m+seaScore*w.sea+seasonScore(t,DAYS_DATE[di])*w.ssn+MX.confByDay[di]*w.cf;
+  const site=SITES.find(x=>x.id===rel.id);
+  if(site&&site.restricted){const ta=tideAgeName(DAYS_DATE[di]);if(ta.lv===3)f-=15;else if(ta.lv===2)f-=8}
+  if(seaScore<55)f=Math.min(f,50);           /* Safety Floor §34 */
+  f=Math.round(clamp(f,0,100));
+  const warnBad=MX.wcap<=30;
+  const rec=warnBad?'AVOID':seaScore<50?'NOT_RECOMMENDED':f>=85?'HIGHLY_RECOMMENDED':f>=70?'RECOMMENDED':f>=55?'POSSIBLE':'NOT_RECOMMENDED';
+  return {f,rec};
+}
+/* 날짜별 타깃 랭킹 (Species × Site × Time) */
+function marineDay(t,di){
+  return t.sites.map(rel=>{
+    const si=SITES.findIndex(x=>x.id===rel.id);if(si<0)return null;
+    const sea=siteDayScore(di,si);if(sea==null)return null;
+    const suit=targetSuitability(t,rel,DAYS_DATE[di]);
+    const {f,rec}=marineFinal(t,rel,di,sea);
+    const hourly=CONFIG.hours.map((h,hi)=>{const c=MX[di][hi][si];
+      return c?{h,score:marineFinal(t,rel,di,c.score).f}:null});
+    return {rel,si,sea:Math.round(sea),suit,fin:f,rec,win:bestWindow(hourly)};
+  }).filter(Boolean).sort((a,b)=>b.fin-a.fin);
+}
+/* Plan B (§25): 다른 타깃 포함 최고 대안 */
+function planB(excludeSi,di){
+  let best=null;
+  for(const t2 of TARGETS)for(const rel of t2.sites){
+    const si=SITES.findIndex(x=>x.id===rel.id);
+    if(si<0||si===excludeSi||rel.s==='POSSIBLE')continue;
+    const sea=siteDayScore(di,si);if(sea==null||sea<70)continue;
+    const {f,rec}=marineFinal(t2,rel,di,sea);
+    if(rec==='NOT_RECOMMENDED'||rec==='AVOID')continue;
+    if(!best||f>best.f)best={t:t2,rel,si,sea:Math.round(sea),f};
+  }
+  return best;
+}
+/* What Can I See Today (§26) */
+function todaysPicks(di){
+  const out=[];
+  for(const t of TARGETS){const rs=marineDay(t,di);
+    if(rs.length&&rs[0].rec!=='NOT_RECOMMENDED'&&rs[0].rec!=='AVOID')out.push({t,r:rs[0]})}
+  return out.sort((a,b)=>b.r.fin-a.r.fin).slice(0,5);
+}
+/* 추천 이유 빌더 (§14-16·§39): 규칙 기반 — 생물/해황/타이밍 3종 */
+function whyTarget(t,r,di){
+  const site=SITES[r.si];
+  const cells=CONFIG.coreHours.map(h=>MX[di][CONFIG.hours.indexOf(h)][r.si]).filter(Boolean);
+  const g=k=>avg(cells.map(c=>c.eff[k]));
+  const pos=[],neg=[];
+  pos.push(`[生物] ${site.name}はこの目標の${STR_KO[r.rel.s]}(${r.rel.s})として登録されています${r.rel.note?' — '+r.rel.note:''}${t.note?'. '+t.note:''}.`);
+  const ssn=seasonScore(t,DAYS_DATE[di]);
+  if(ssn>=90)pos.push(`[季節] 現在 ${DAYS_DATE[di].getMonth()+1}月はこの目標のシーズン${ssn===100?' 最盛期':''}に該当します。`);
+  else if(ssn<=40)neg.push(`[季節] 現在は主なシーズン(${t.season?t.season.join('·')+'月':'-'})ではありません。`);
+  const wv=g('wave');
+  if(wv!=null){if(wv<=0.8)pos.push(`[海況] 有義波高 ${wv.toFixed(1)}mと低めです。`);
+    else if(wv>=1.3)neg.push(`[海況] 有義波高 ${wv.toFixed(1)}mとやや高めです。`)}
+  const sw=g('swell'),swT=g('swellT');
+  if(sw!=null&&sw>=0.9)neg.push(`[海況] うねり ${sw.toFixed(1)}m@${(swT??0).toFixed(0)}sがこのポイントに影響します。`);
+  const exW=avg(cells.map(c=>c.eff.exW)),wd=vecAvg(cells.map(c=>c.eff.wdir));
+  if(exW!=null){if(exW<0.4)pos.push(`[海況] 現在の${dirName(wd)}風への露出度は${(exW*100).toFixed(0)}%と限定的です。`);
+    else if(exW>0.75)neg.push(`[海況] 現在の風向に${(exW*100).toFixed(0)}%露出しています。`)}
+  if(r.win)pos.push(`[タイミング] ${fmtWin(r.win)} の時間帯が最もスコアが良好です（平均${r.win.avg}点）。`);
+  const morH=CONFIG.hours.filter(h=>h<12),aftH=CONFIG.hours.filter(h=>h>=13);
+  const mor=avg(morH.map(h=>MX[di][CONFIG.hours.indexOf(h)][r.si]?.score)),aft=avg(aftH.map(h=>MX[di][CONFIG.hours.indexOf(h)][r.si]?.score));
+  if(mor!=null&&aft!=null){if(mor-aft>7)neg.push(`[タイミング] 午後になるほど海況スコアが低下します（${Math.round(mor)}→${Math.round(aft)}）— 午前推奨。`);
+    else if(aft-mor>7)pos.push(`[タイミング] 午前より午後の海況が良好です（${Math.round(mor)}→${Math.round(aft)}).`)}
+  if(site.restricted)neg.push('[アクセス] エントリー日制限ポイント — 現地ショップの潮汐表確認必須。');
+  if(t.conf!=='HIGH')neg.push(`[データ] 生物・サイトの根拠確信度 ${t.conf}${t.conf==='LIMITED'?' （LIMITED DATA — 参考用）':''}.`);
+  if(r.sea<50)neg.push(`[安全] 海況 ${r.sea}点 — Safety Gateにより推薦対象外です。`);
+  else if(r.sea<55)neg.push(`[安全] 海況 ${r.sea}点 — Safety Floorにより最終スコアが50点に制限されました。`);
+  pos.push(`[信頼度] 予報信頼度 ${MX.confByDay[di]}%.`);
+  return {pos,neg};
+}
+/* v2.0 상태 */
+let MODE=store.get('idi_mode')||'cond';
+let PRIORITY=store.get('idi_prio')||'balanced';
+let selTargets=new Set((store.get('idi_targets')||'tmanta').split(',').filter(Boolean));
+let MAPMODE='cond';
+function setMode(m){MODE=m;store.set('idi_mode',m);render()}
+function setPriority(p){PRIORITY=p;store.set('idi_prio',p);render()}
+function toggleTarget(id){
+  if(selTargets.has(id)){if(selTargets.size>1)selTargets.delete(id)}else selTargets.add(id);
+  store.set('idi_targets',[...selTargets].join(','));render();
+}
+function setMapMode(m){MAPMODE=m;render()}
+/* ---- v2.0 렌더러 ---- */
+function renderMarine(di){
+  let h='';
+  h+=`<div class="small" style="margin:4px 0">WHAT DO YOU WANT TO SEE? — 複数選択可能</div><div class="tchips">`+
+    TARGETS.map(t=>`<button class="tchip ${selTargets.has(t.id)?'active':''}" onclick="toggleTarget('${t.id}')">${t.icon} ${t.name.split(' (')[0]}${t.conf==='LIMITED'?'<span class="lim">LIMITED</span>':''}</button>`).join('')+'</div>';
+  h+=`<div class="prio"><span class="small" style="align-self:center">PRIORITY</span>
+    <button class="${PRIORITY==='target'?'active':''}" onclick="setPriority('target')">🎯 生物優先</button>
+    <button class="${PRIORITY==='balanced'?'active':''}" onclick="setPriority('balanced')">⚖ バランス（標準）</button>
+    <button class="${PRIORITY==='cond'?'active':''}" onclick="setPriority('cond')">🌊 海況優先</button></div>`;
+  for(const tid of selTargets){
+    const t=TARGETS.find(x=>x.id===tid);if(!t)continue;
+    const rs=marineDay(t,di);
+    h+=`<div class="mtitle">${t.icon} <b>${t.name}</b> <span class="dc">データ確信度 ${t.conf}${t.conf==='LIMITED'?' · LIMITED DATA':''}</span></div>`;
+    const dayCmp=DAYS.map((_,i)=>{const r2=marineDay(t,i);return r2.length?Math.max(...r2.map(x=>x.fin)):null});
+    const vals=dayCmp.filter(v=>v!=null);
+    const bi=vals.length?dayCmp.indexOf(Math.max(...vals)):-1;
+    h+='<div class="mdaycmp">'+dayCmp.map((v,i)=>`<div class="dch ${i===bi?'best':''}">${dayName(i)}<b style="color:${v!=null?gcol(v):'var(--dim)'}">${v??'-'}</b>${i===bi?' ★BEST':''}</div>`).join('')+'</div>';
+    if(!rs.length){h+='<div class="banner">この日付のデータはありません。</div>';continue}
+    rs.slice(0,4).forEach((r,i)=>{
+      const s=SITES[r.si];
+      h+=`<div class="mrow ${i===0?'top':''}" id="mr-${tid}-${r.si}">
+        <div class="hd"><span class="no">#${i+1}</span>
+          <span class="nm">${s.name} <span class="st">${STR_STAR[r.rel.s]} ${STR_KO[r.rel.s]}${s.restricted?' ・⚠️エントリー制限':''}</span></span>
+          <span class="dual">
+            <span class="d"><span class="k">🐠 TARGET</span><span class="v" style="color:${gcol(r.suit)}">${r.suit}</span></span>
+            <span class="d"><span class="k">🌊 SEA</span><span class="v" style="color:${gcol(r.sea)}">${r.sea}</span></span>
+            <span class="d"><span class="k">FINAL</span><span class="v" style="color:${gcol(r.fin)}">${r.fin}</span></span>
+          </span>
+          <span class="reclab" style="background:${recColor(r.rec)};color:#04222e">${REC_KO[r.rec]}</span>
+        </div>
+        <div class="meta">${r.win?`BEST TARGET WINDOW <b style="color:var(--accent)">${fmtWin(r.win)}</b> ・ 平均 ${r.win.avg}点`:''}</div>
+        <button class="whybtn" onclick="document.getElementById('mr-${tid}-${r.si}').classList.toggle('open')">WHY THIS SITE? ▾</button>
+        <div class="whybox">${(()=>{const w=whyTarget(t,r,di);
+          return '<b>POSITIVE</b>'+w.pos.map(x=>`<div class="p">✓ ${x}</div>`).join('')+
+          (w.neg.length?'<b style="display:block;margin-top:6px">NEGATIVE</b>'+w.neg.map(x=>`<div class="n">△ ${x}</div>`).join(''):'');})()}
+        </div>
+      </div>`;
+    });
+    const top=rs[0];
+    if(top&&(top.rec==='NOT_RECOMMENDED'||top.rec==='AVOID'||top.sea<60)){
+      const pb=planB(top.si,di);
+      if(pb)h+=`<div class="planb">⚠️ <b>${t.name.split(' (')[0]}</b>の最適ポイント（${SITES[top.si].name}）は本日の海況が${top.sea}点で不利です。<br>
+        <b>PLAN B →</b> ${SITES[pb.si].name}で<b>${pb.t.icon} ${pb.t.name.split(' (')[0]}</b>に目標転換 — 海況${pb.sea}点・推薦スコア${pb.f}点</div>`;
+    }
+  }
+  h+=renderPicksCard(di);
+  h+=`<div class="small" style="margin-top:10px">⚠️ <b>野生の海洋生物の実際の出現・観察は保証されません。</b> TARGETスコアは "見られる確率"ではなく、その生物を目標にこのポイントを選ぶことがどれだけ合理的か（Target Suitability）です。生物・サイトのマッピングは一般的なダイビング情報に基づき（根拠不十分な場合はLIMITED）— 現地ガイドの最新情報が常に優先されます。</div>`;
+  return h;
+}
+function renderPicksCard(di){
+  const picks=todaysPicks(di);
+  if(!picks.length)return '';
+  const medals=['🥇','🥈','🥉','4.','5.'];
+  return `<div class="picks"><b>🔮 WHAT CAN I SEE TODAY? — ${dayName(di)} 生物ターゲットランキング</b>
+  ${picks.map((p,i)=>`<div class="pk"><span class="medal">${medals[i]}</span><span class="tn">${p.t.icon} ${p.t.name.split(' (')[0]}</span>
+    <span class="site">${SITES[p.r.si].name}${p.r.win?' · '+fmtWin(p.r.win):''}</span>
+    <span class="dual"><span class="d"><span class="k">TARGET</span><span class="v" style="font-size:.95rem;color:${gcol(p.r.suit)}">${p.r.suit}</span></span>
+    <span class="d"><span class="k">SEA</span><span class="v" style="font-size:.95rem;color:${gcol(p.r.sea)}">${p.r.sea}</span></span></span></div>`).join('')}
+  <div class="small" style="margin-top:6px">出現保証なし — Target Suitability基準</div></div>`;
+}
 /* ================================================================ RENDER */
 function dayName(i){const d=DAYS_DATE[i];return `${d.getMonth()+1}/${d.getDate()}(${DOW[d.getDay()]})`}
 let DAYS_DATE=[];
@@ -795,6 +1060,11 @@ function render(){
       s+=` ${dayName(worst.i)}は${r.loss[0]?r.loss[0].label+'の影響で':''}相対的に不利です。`}
     html+=`<div class="summary">🧭 ${s}</div>`;
   }
+  /* v2.0 추천 모드 선택 (§2) */
+  html+=`<div class="modes"><div class="mq">WHAT'S YOUR PRIORITY? — 推薦モード選択</div><div class="mbtns">
+    <button class="mbtn ${MODE==='cond'?'active':''}" onclick="setMode('cond')">🌊 BEST CONDITIONS<span>本日海況が最も良いポイント</span></button>
+    <button class="mbtn ${MODE==='life'?'active':''}" onclick="setMode('life')">🐠 MARINE LIFE TARGET<span>見たい生物中心の推薦</span></button>
+  </div></div>`;
   /* SECTION 1: 3-DAY OUTLOOK */
   html+=`<h2>📅 <b>${DAYS.length}-DAY DIVE OUTLOOK</b> <span class="tag live">LIVE FORECAST</span></h2><div class="outlook">`;
   t.days.forEach((d,i)=>{
@@ -840,12 +1110,18 @@ function render(){
   }
   html+=`<div class="mnote">⚠️ このスコアは<b>マンタポイントに船を着けてダイビングできる気象・海洋条件</b>であり、<b>マンタ遭遇確率ではありません</b>。季節の参考: 川平石崎のクリーニングステーションは夏〜秋、<b>ヨナラ水道（マンタウェイ）は9〜11月</b>が最盛期として知られています。ヨナラ水道は強い潮流のため<b>潮回り（大潮・小潮）により月に約7日のみエントリーが許可</b>されるため、現地ダイビングショップの潮汐表確認が必須です。</div></div>`;
   /* 날짜 칩 */
-  html+=`<h2>📍 <b>DIVE SITE RANKING</b> — 日付・時間別</h2><div class="chips">`+
+  html+=`<h2>${MODE==='life'?'🐠 <b>MARINE LIFE TARGET RANKING</b>':'📍 <b>BEST DIVING CONDITIONS</b> — 海況中心ランキング'} — 日付・時間別</h2><div class="chips">`+
     t.days.map((d,i)=>`<button class="${i===activeDay?'active':''}" onclick="activeDay=${i};render()">${dayName(i)}${d.overall!=null?' · '+d.overall:''}</button>`).join('')+`</div>`;
-  /* SECTION 5: ranking + hour selector (§10) */
+  if(MODE==='life'){
+    /* MODE B: 생물 타깃 랭킹 (§12) */
+    html+=renderMarine(activeDay);
+  }else{
+  /* MODE A: 해황 랭킹 + hour selector (§10) */
   html+=`<div class="hoursel"><button class="${rankHour==='all'?'active':''}" onclick="rankHour='all';render()">1日総合</button>`+
     CONFIG.hours.map(h=>`<button class="${rankHour===h?'active':''}" onclick="rankHour=${h};render()">${h}時</button>`).join('')+`</div>`;
   html+=renderRanking(activeDay);
+  html+=renderPicksCard(activeDay);
+  }
   /* SECTION 6: hourly graph */
   const dObj=t.days[activeDay],ih=dObj.ih;
   html+=`<h2>⏱️ <b>HOURLY DIVE SCORE</b> — ${dayName(activeDay)} <span class="small">（各時間の最適ポイント基準）</span></h2><div class="hgraph"><div class="hrow">`;
@@ -917,8 +1193,10 @@ function render(){
   /* 모델 비교 (§39) */
   html+=renderModels(activeDay);
   html+='</div></div>';
-  /* 지도 */
-  html+=`<h2>🗺️ <b>DIVE SITE MAP</b> — ${dayName(activeDay)} 総合スコア <span class="small">座標は近似値（UNVERIFIED）</span></h2><div id="siteMap"></div>`;
+  /* 지도 (§47 MAP MODE 토글) */
+  html+=`<h2>🗺️ <b>DIVE SITE MAP</b> — ${dayName(activeDay)} <span class="small">座標は近似値（UNVERIFIED）</span></h2>
+  <div class="maptog"><button class="${MAPMODE==='cond'?'active':''}" onclick="setMapMode('cond')">🌊 海況スコア</button>
+  <button class="${MAPMODE==='life'?'active':''}" onclick="setMapMode('life')">🐠 生物ターゲット</button></div><div id="siteMap"></div>`;
   /* 소스/신선도/보고 (§94) */
   html+=renderSources();
   $('#app').innerHTML=html;
@@ -942,7 +1220,7 @@ function renderRanking(di){
     const c=x.cell||MX[di][CONFIG.hours.indexOf(10)][x.si]||MX[di][0][x.si];
     h+=`<div class="rrow" onclick="this.classList.toggle('open')">
       <span class="no">#${i+1}</span>
-      <span class="nm"><b>${s.name}</b>${s.manta?' 🐋':''}${s.drift?' 🌀':''}${s.restricted?' <span style="color:var(--g50);font-size:.66rem;font-weight:800">⚠️エントリー制限</span>':''} <a href="https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}" target="_blank" onclick="event.stopPropagation()" title="Googleマップで開く" style="font-size:.72rem;text-decoration:none">📍地図</a><div class="a">${s.area} · ${s.depth} · ${s.beg?'初心者OK':'経験者向け'}${s.restricted?' ・ 月に約7日のみエントリー可（潮回り）— 現地ショップの潮汐表必須':''}</div></span>
+      <span class="nm"><b>${s.name}</b>${SITE_TARGETS[s.id]?' <span class="ticons">'+[...new Set(SITE_TARGETS[s.id])].join('')+'</span>':''}${s.drift?' 🌀':''}${s.restricted?' <span style="color:var(--g50);font-size:.66rem;font-weight:800">⚠️エントリー制限</span>':''} <a href="https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}" target="_blank" onclick="event.stopPropagation()" title="Googleマップで開く" style="font-size:.72rem;text-decoration:none">📍地図</a><div class="a">${s.area} · ${s.depth} · ${s.beg?'初心者OK':'経験者向け'}${s.restricted?' ・ 月に約7日のみエントリー可（潮回り）— 現地ショップの潮汐表必須':''}</div></span>
       ${c?`<span class="cond">波 ${c.eff.wave.toFixed(1)}m ・ うねり ${c.eff.swell.toFixed(1)}m@${(c.eff.swellT??0).toFixed(0)}s ${arrowSpan(c.eff.swDir,'var(--g60)')}<br>風 ${dirName(c.eff.wdir)} ${c.eff.windKt?.toFixed(0)}kt ${arrowSpan(c.eff.wdir!=null?c.eff.wdir+180:null)} ・ 海流 ${c.eff.curKt!=null?c.eff.curKt.toFixed(1)+'kt':'N/A'} ${arrowSpan(c.eff.curDir,'var(--g80)')}</span>`:''}
       <span class="sc" style="color:${gcol(x.score)}">${x.score}</span>
       <span class="gr" style="color:${gcol(x.score)}">${grade(x.score)}<br>${gradeKo(x.score)}</span>
@@ -1021,7 +1299,7 @@ function renderSources(){
   <div class="srow"><b>Windy</b> <span class="tag">MAP EMBED ONLY</span><div class="f">公式embedウィジェットの可視化のみ使用（Point APIは有料キー必要 → 未接続）</div></div>
   <div class="srow"><b>Azure Maps Weather</b> <span class="tag off">NOT CONNECTED</span><div class="f">サブスクリプションキー必要 ・ marine変数なし → 導入時はクロス検証用</div></div>
   <div class="srow"><b>Copernicus Marine</b> <span class="tag off">NOT CONNECTED</span><div class="f">認証必要 ・ Open-Meteo Marineが同系列モデルを再配布（間接使用）</div></div>
-  <div class="srow"><b>潮位・潮回り・月（Open-Meteo Sea Level + 天文計算）</b> <span class="tag live">LIVE · MODEL</span><div class="f">海面モデル → 満潮・干潮時刻/潮位、月齢ベースの潮回り・月相 ・ 取得 ${f('tide')} ・ 公式潮位は気象庁潮位表</div></div>
+  <div class="srow"><b>潮位・潮回り・月（Open-Meteo Sea Level + 天文計算）</b> <span class="tag live">LIVE · MODEL</span><div class="f">海面モデル → 満潮・干潮時刻/潮位、月齢 ベースの潮回り・月相 ・ 取得 ${f('tide')} ・ 公式潮位は気象庁潮位表</div></div>
   <div class="srow"><b>潮流（Tidal Current）</b> <span class="tag off">DATA UNAVAILABLE</span><div class="f">公開API不在 — 数値非表示（§64）、スラックタイムは潮汐の一般則のみ案内。海流（Ocean Current）とは区別（§35）</div></div>
   </div>
   <div class="small" style="margin-top:8px">既知の限界: ① 海洋モデルの格子解像度によりリーフ内側の実際の波はより穏やかな場合あり ② ポイント座標は近似値（UNVERIFIED） ③ 水中視界は推定値 ④ 波浪は単一モデル。Scoring Engine v2.0 ・ すべてのスコアは決定論的・監査可能（ランキング行をタップしてBreakdown確認）。</div>`;
@@ -1036,17 +1314,26 @@ function initMap(){
     if(MAP){MAP.remove();MAP=null}
     MAP=L.map('siteMap',{scrollWheelZoom:false}).setView([24.37,124.08],10);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(MAP);
+    const cssCol=v=>getComputedStyle(document.documentElement).getPropertyValue(v.slice(4,-1)).trim()||'#888';
+    if(MAPMODE==='life'){
+      /* 생물 타깃 모드: 선택된 첫 타깃 기준 (§47) */
+      const t=TARGETS.find(x=>selTargets.has(x.id))||TARGETS[0];
+      marineDay(t,activeDay).forEach(r=>{
+        const s=SITES[r.si],col=cssCol(gcol(r.fin));
+        L.circleMarker([s.lat,s.lon],{radius:11,color:col,fillColor:col,fillOpacity:.85,weight:2})
+          .addTo(MAP).bindPopup(`<b>${s.name}</b> ${t.icon}<br>${STR_STAR[r.rel.s]} ${STR_KO[r.rel.s]}<br>TARGET ${r.suit} · SEA ${r.sea} · FINAL <b>${r.fin}</b><br>${REC_KO[r.rec]}${r.win?' · '+fmtWin(r.win):''}${s.restricted?'<br>⚠️ エントリー日制限':''}<br><span style="font-size:.75em">データ確信度 ${t.conf} ・出現保証なし</span>`);
+      });
+    }else{
     TRIP.days[activeDay].sds.forEach(x=>{
       const s=SITES[x.si],sc=Math.round(x.score);
-      const col=getComputedStyle(document.documentElement).getPropertyValue(gcol(sc).slice(4,-1)).trim()||'#888';
+      const col=cssCol(gcol(sc));
       L.circleMarker([s.lat,s.lon],{radius:10,color:col,fillColor:col,fillOpacity:.85,weight:2})
         .addTo(MAP).bindPopup(`<b>${s.name}</b> ${s.manta?'🐋':''}<br>${dayName(activeDay)} 総合 <b>${sc}点</b> · ${grade(sc)} ${gradeKo(sc)}${s.restricted?'<br>⚠️ エントリー日制限 — 現地ショップの潮汐表を確認':''}<br><span style="font-size:.75em">${s.area} · ${s.depth} ・ 座標は近似値（UNVERIFIED）</span><br><a href="https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}" target="_blank">📍 Googleマップで開く</a>`);
     });
+    }
   }catch(e){el.outerHTML='<div class="mapfallback">地図の初期化に失敗: '+e.message+'</div>'}
 }
 /* ---------------- settings / boot ---------------- */
-const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},
-             set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 function getLevel(){return store.get('idi_level')||'experienced'}
 function applySettings(){
   store.set('idi_start',$('#startDate').value);
@@ -1237,6 +1524,28 @@ $('#guideSec').innerHTML=`
   <div class="gtiles" id="guideTiles" style="display:none;margin-top:10px">`+
   ART.map(a=>{const col=a.min>=90?'var(--g90)':a.min>=75?'var(--g80)':a.min>=60?'var(--g60)':a.min>=40?'var(--g50)':'var(--g0)';
   return `<div class="gtile">${a.svg}<span class="range" style="background:${col}">${a.grade}点</span><h3>${a.title}</h3></div>`}).join('')+`</div>`;
+/* 체인지로그 (v1.0 → v2.0) */
+$('#changelogSec').innerHTML=`
+  <button style="width:100%;margin-top:14px;background:var(--panel);border:1px solid var(--line);
+    color:var(--text);border-radius:12px;padding:13px 16px;cursor:pointer;font-size:.92rem;font-weight:700;
+    display:flex;align-items:center;gap:10px;text-align:left"
+    onclick="const g=document.getElementById('clBody');const o=g.style.display!=='none';g.style.display=o?'none':'block';this.querySelector('.arr').textContent=o?'▸':'▾'">
+    📋 ver 1.0 → ver 2.0 変更内容を見る <span class="arr" style="margin-left:auto;color:var(--accent)">▸</span></button>
+  <div id="clBody" style="display:none;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:8px;font-size:.82rem;line-height:1.7;color:var(--dim)">
+    <b style="color:var(--text)">ver 1.0 (2026-08-12)</b> — "今日、海の状態が最も良い場所はどこか？"に答えるシステム<br>
+    16ポイントの海況スコア（波・風・うねり・海流・雷雨・水温・信頼度）・時間別/日別ランキング・マンタアクセス性・Best Window・潮汐/潮回り/月・JMA公式警報/台風Hard Override・3言語・期間自由設定<br><br>
+    <b style="color:var(--text)">ver 2.0 (2026-08-13)</b> — ここに <b style="color:var(--accent)">"見たい生物を見るにはどこへ行くべきか？"</b>を追加<br>
+    ① <b>推薦モード2種</b>：🌊 BEST CONDITIONS（海況中心）/ 🐠 MARINE LIFE TARGET（生物中心）— 2つのランキングを混在させず分離<br>
+    ② <b>海洋生物DB 11種</b>（マンタ・ウミガメ・サメ・リボンイール・バットフィッシュ・クロコダイルフィッシュ・ハコフグ・ウミウシ・コブシメ・サンゴ・魚群）× ポイントマッピング（PRIMARY/GOOD/POSSIBLE）— 根拠不足時はLIMITED表示<br>
+    ③ <b>Target Suitability</b>：出現確率ではなく "その生物を目標にそのポイントを選ぶことがどれだけ合理的か" — TARGET・SEA・FINAL 3スコア同時表示<br>
+    ④ <b>Safety Gate</b>：海況50点未満→非推薦、55点未満→最終スコア50点制限、公式警報→回避。生物が目標でも悪い海況を無視しない<br>
+    ⑤ <b>Plan B自動生成</b>：目標ポイントの海況が悪い場合、代替ポイント+代替生物を提案<br>
+    ⑥ <b>WHY THIS SITE?</b>：生物・海況・タイミング3種の根拠をルールベースで説明（ポジティブ/ネガティブ要因）<br>
+    ⑦ <b>WHAT CAN I SEE TODAY?</b>：本日の海況で実現可能性の高い生物ターゲットランキング<br>
+    ⑧ 優先度3モード（生物/バランス/海況）・地図生物ターゲットモード・ポイントカード代表生物アイコン・生物別BEST DAY<br><br>
+    <a href="v1.html">→ ver 1.0 画面を見る（保存済み）</a><br>
+    <span style="font-size:.72rem">楽しく、面白く、安全なダイビングとダイバーのために 🤿 — Dr. Min &amp; Kim</span>
+  </div>`;
 /* boot */
 loadAll();
 setInterval(loadAll,CONFIG.autoRefreshMin*60*1000);
