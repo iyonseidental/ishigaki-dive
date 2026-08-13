@@ -180,6 +180,57 @@ button{font-family:inherit}
 .linkgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
 .linkgrid a{display:block;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px;color:var(--text);text-decoration:none;font-size:.82rem}
 .linkgrid a small{display:block;color:var(--dim);font-size:.68rem}
+/* ---- v2.0: 추천 모드 / 해양생물 ---- */
+.modes{margin:14px 0 4px}
+.modes .mq{font-size:.72rem;letter-spacing:.12em;color:var(--dim);margin-bottom:8px;font-weight:700}
+.mbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mbtn{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:13px 12px;
+  cursor:pointer;color:var(--dim);text-align:left;font-size:.95rem;font-weight:800}
+.mbtn span{display:block;font-size:.72rem;font-weight:400;margin-top:3px}
+.mbtn.active{border-color:var(--accent);background:var(--panel2);color:var(--text);box-shadow:0 0 0 1px var(--accent) inset}
+.tchips{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}
+.tchip{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:7px 13px;
+  cursor:pointer;color:var(--dim);font-size:.82rem}
+.tchip.active{border-color:var(--accent);background:var(--panel2);color:var(--text);font-weight:700}
+.tchip .lim{font-size:.58rem;color:var(--g50);margin-left:3px}
+.prio{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 12px;font-size:.76rem}
+.prio button{background:var(--panel);border:1px solid var(--line);color:var(--dim);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:.76rem}
+.prio button.active{border-color:var(--accent);color:var(--text);background:var(--panel2)}
+.mtitle{display:flex;align-items:center;gap:8px;margin:16px 0 8px;font-size:1rem}
+.mtitle .dc{font-size:.62rem;padding:1px 8px;border-radius:10px;border:1px solid var(--line);color:var(--dim)}
+.mrow{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:8px}
+.mrow.top{border-color:var(--accent)}
+.mrow .hd{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.mrow .no{font-weight:800;color:var(--dim)}
+.mrow .nm{font-weight:700;flex:1;min-width:120px}
+.mrow .nm .st{font-size:.66rem;color:var(--dim);font-weight:400}
+.dual{display:flex;gap:12px;align-items:center}
+.dual .d{text-align:center}
+.dual .d .k{font-size:.58rem;color:var(--dim);letter-spacing:.05em}
+.dual .d .v{font-size:1.15rem;font-weight:800}
+.reclab{font-size:.64rem;font-weight:800;padding:3px 9px;border-radius:10px;white-space:nowrap}
+.mrow .meta{font-size:.72rem;color:var(--dim);margin-top:5px}
+.whybtn{margin-top:8px;background:none;border:1px solid var(--line);color:var(--dim);border-radius:7px;padding:4px 11px;font-size:.7rem;cursor:pointer}
+.whybox{display:none;margin-top:9px;border-top:1px dashed var(--line);padding-top:9px;font-size:.76rem}
+.mrow.open .whybox{display:block}
+.whybox .p{color:var(--g80);margin-top:3px}
+.whybox .n{color:var(--g50);margin-top:3px}
+.planb{background:linear-gradient(135deg,#10321f,#0c1c2b);border:1px solid var(--g90);border-radius:12px;padding:13px 15px;margin:10px 0;font-size:.85rem}
+.planb b{color:var(--g90)}
+.picks{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:12px}
+.picks .pk{display:flex;align-items:center;gap:9px;padding:6px 0;border-bottom:1px solid #12253a;font-size:.84rem;flex-wrap:wrap}
+.picks .pk:last-child{border-bottom:none}
+.picks .pk .medal{width:26px}
+.picks .pk .tn{flex:1;min-width:110px;font-weight:600}
+.picks .pk .site{color:var(--dim);font-size:.74rem}
+.mdaycmp{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 2px}
+.mdaycmp .dch{background:#0a1826;border:1px solid var(--line);border-radius:9px;padding:5px 11px;font-size:.74rem;text-align:center}
+.mdaycmp .dch b{display:block;font-size:.95rem}
+.mdaycmp .dch.best{border-color:var(--g90)}
+.maptog{display:flex;gap:6px;margin-bottom:8px}
+.maptog button{background:var(--panel);border:1px solid var(--line);color:var(--dim);border-radius:8px;padding:6px 13px;cursor:pointer;font-size:.78rem}
+.maptog button.active{border-color:var(--accent);color:var(--text);background:var(--panel2)}
+.ticons{font-size:.8rem;letter-spacing:1px}
 /* briefing */
 .brief{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
 .brief .txt{font-size:.9rem;line-height:1.75}
@@ -218,6 +269,14 @@ button{font-family:inherit}
   .rrow .nm .a{font-size:.62rem}
   .conds{grid-template-columns:repeat(2,1fr)}
   .ctable th,.ctable td{padding:5px 6px;font-size:.72rem}
+  .mbtns{grid-template-columns:1fr}
+  .mrow .hd{gap:6px}
+  .dual{gap:8px;width:100%;justify-content:space-between;order:3}
+  .dual .d .v{font-size:1rem}
+  .reclab{order:2}
+  .mrow .nm{order:1}
+  .picks .pk{gap:6px}
+  .picks .pk .dual{width:auto;order:0}
 }
 @media(max-width:380px){
   .hoursel button{padding:3px 6px;font-size:.62rem}
@@ -237,7 +296,7 @@ button{font-family:inherit}
 </div></noscript>
 <div class="topbar"><header>
   <h1>ISHIGAKI <span>DIVE INTELLIGENCE</span></h1>
-  <span class="credit">제작자 <b>Dr. Min &amp; Kim</b> · 만든날짜 2026-08-12 · <b>ver 1.0</b></span>
+  <span class="credit">제작자 <b>Dr. Min &amp; Kim</b> · 만든날짜 2026-08-12 · <b>ver 2.0</b></span>
   <div class="hbtns">
     <div class="updchip" id="updChip">아직 업데이트 전</div>
     <button class="btn" id="refreshBtn" onclick="loadAll()">🔄 실시간 업데이트</button>
@@ -284,6 +343,7 @@ button{font-family:inherit}
 </div>
 
 <div id="guideSec"></div>
+<div id="changelogSec"></div>
 <div class="note" id="disclaimer">
   <b style="color:var(--text)">⚠️ SAFETY DISCLAIMER</b><br>
   본 시스템의 점수는 기상·해양 데이터를 종합한 <b>참고 지표</b>입니다. 실제 다이빙 여부, 포인트 선정 및 출항 여부는 <b>현지 다이빙 오퍼레이터와 보트 캡틴의 판단을 우선</b>하십시오.
@@ -340,6 +400,8 @@ const SITES=[
 ];
 /* ================================================================ utils */
 const $=s=>document.querySelector(s);
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},
+             set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 const DOW=['일','월','화','수','목','금','토'];
 const fmtD=d=>d.toISOString().slice(0,10);
 const addD=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
@@ -781,6 +843,209 @@ function renderTide(){
   h+=`<div class="small" style="margin-top:8px">💡 만조·간조 전후 ±1시간은 조류가 약해지는 <b>슬랙 타임</b>으로 드리프트 포인트 진입에 유리합니다. <b>대조(사리)</b> 시기에는 조차와 조류가 커지고, 만타 포인트는 조류가 흐를 때 활동이 활발한 경향이 알려져 있습니다(일반 정보). 조위는 해수면 모델 예측치 — 항해용 공식 조위는 <a href="https://www.data.jma.go.jp/kaiyou/db/tide/suisan/index.php" target="_blank">JMA 조석표</a> 확인.</div></div>`;
   return h;
 }
+/* ================================================================
+   v2.0 MARINE LIFE TARGET ENGINE
+   원칙: 출현 확률이 아닌 "Target Suitability(목표 적합도)" · Safety Gate 적용 ·
+   근거 없는 배정 금지(불확실 → LIMITED DATA) · 관찰은 보장되지 않음
+================================================================ */
+const TARGETS=[
+{id:'tmanta',icon:'🐋',name:'만타 (Manta Ray)',cat:'LARGE',conf:'HIGH',season:[6,7,8,9,10,11],peak:[9,10,11],
+ note:'카비라 클리닝 스테이션 여름~가을 · 요나라 9~11월 성수기',
+ sites:[{id:'mantacity',s:'PRIMARY'},{id:'mantascr',s:'PRIMARY'},{id:'kabira',s:'PRIMARY'},{id:'yonara',s:'GOOD',note:'입수제한 · 9~11월 성수기'}]},
+{id:'tturtle',icon:'🐢',name:'바다거북 (Green Sea Turtle)',cat:'LARGE',conf:'HIGH',season:null,
+ note:'연중 관찰 — 오사키가 대표 거북 포인트로 널리 알려짐',
+ sites:[{id:'osaki',s:'PRIMARY'},{id:'kuroN',s:'GOOD'},{id:'kuroS',s:'GOOD'},{id:'yonehara',s:'POSSIBLE'}]},
+{id:'tshark',icon:'🦈',name:'화이트팁 리프상어',cat:'LARGE',conf:'LIMITED',season:null,
+ note:'외해 리프에서 간헐 관찰 — 검증 자료 제한적',
+ sites:[{id:'kuroN',s:'POSSIBLE'},{id:'kuroS',s:'POSSIBLE'},{id:'iriomoteE',s:'POSSIBLE'}]},
+{id:'tribbon',icon:'🐍',name:'리본일 (Ribbon Eel)',cat:'REEF',conf:'LIMITED',season:null,
+ note:'모래·리프 경계 서식 — 사이트별 검증 자료 제한적',
+ sites:[{id:'osaki',s:'POSSIBLE'},{id:'arakawa',s:'POSSIBLE'},{id:'nagura',s:'POSSIBLE'}]},
+{id:'tbatfish',icon:'🐟',name:'배트피시 (Longfin Batfish)',cat:'REEF',conf:'MEDIUM',season:null,
+ note:'나구라만 일대 무리 관찰 보고',
+ sites:[{id:'nagura',s:'GOOD'},{id:'arakawa',s:'POSSIBLE'}]},
+{id:'tcroc',icon:'🐊',name:'크로커다일피시',cat:'MACRO',conf:'LIMITED',season:null,
+ note:'모래바닥·산호 경계 — 검증 자료 제한적',
+ sites:[{id:'nagura',s:'POSSIBLE'},{id:'arakawa',s:'POSSIBLE'},{id:'taketomiS',s:'POSSIBLE'}]},
+{id:'tboxfish',icon:'🟡',name:'노랑거북복 유어',cat:'MACRO',conf:'LIMITED',season:null,
+ note:'얕은 리프·마크로 포인트 — 검증 자료 제한적',
+ sites:[{id:'nagura',s:'POSSIBLE'},{id:'sukuji',s:'POSSIBLE'}]},
+{id:'tnudi',icon:'🐌',name:'갯민숭달팽이 (Nudibranch)',cat:'MACRO',conf:'MEDIUM',season:null,
+ note:'마크로 포인트 전반 — 겨울~봄에 종 다양성 증가 경향',
+ sites:[{id:'nagura',s:'GOOD'},{id:'arakawa',s:'GOOD'},{id:'taketomiS',s:'POSSIBLE'},{id:'miyara',s:'POSSIBLE'}]},
+{id:'tcuttle',icon:'🦑',name:'코브시메 (대형 갑오징어)',cat:'MACRO',conf:'LIMITED',season:[12,1,2,3,4],
+ note:'겨울~봄 산란기 관찰 보고 — 여름은 비시즌',
+ sites:[{id:'nagura',s:'POSSIBLE'}]},
+{id:'tcoral',icon:'🪸',name:'산호 정원 (Coral Garden)',cat:'SCENERY',conf:'HIGH',season:null,
+ note:'요네하라 산호정원 · 시라호 청산호 군락(세계적 규모)',
+ sites:[{id:'yonehara',s:'PRIMARY'},{id:'shiraho',s:'PRIMARY'},{id:'sukuji',s:'GOOD'},{id:'taketomiS',s:'GOOD'},{id:'kuroN',s:'GOOD'}]},
+{id:'tschool',icon:'🐠',name:'물고기 떼 (Fish School)',cat:'SCENERY',conf:'MEDIUM',season:null,
+ note:'리프 가장자리·조류 있는 포인트에서 무리 형성 경향',
+ sites:[{id:'yonehara',s:'GOOD'},{id:'osaki',s:'GOOD'},{id:'kuroN',s:'GOOD'},{id:'iriomoteE',s:'POSSIBLE'}]},
+];
+/* 사이트 → 대표 타깃 아이콘 (PRIMARY/GOOD만) */
+const SITE_TARGETS={};TARGETS.forEach(t=>t.sites.forEach(r=>{if(r.s!=='POSSIBLE')(SITE_TARGETS[r.id]=SITE_TARGETS[r.id]||[]).push(t.icon)}));
+/* 우선순위 가중치 (§33, config) */
+const PRIO_W={target:{m:.50,sea:.25,ssn:.15,cf:.10},cond:{m:.25,sea:.50,ssn:.10,cf:.15},balanced:{m:.35,sea:.35,ssn:.15,cf:.15}};
+const STRENGTH={PRIMARY:100,GOOD:75,POSSIBLE:50};
+const STR_KO={PRIMARY:'대표 포인트',GOOD:'주요 포인트',POSSIBLE:'관찰 가능'};
+const STR_STAR={PRIMARY:'★★★★★',GOOD:'★★★★',POSSIBLE:'★★★'};
+const REC_KO={HIGHLY_RECOMMENDED:'적극 추천',RECOMMENDED:'추천',POSSIBLE:'가능',NOT_RECOMMENDED:'비추천',AVOID:'회피'};
+function recColor(r){return r==='HIGHLY_RECOMMENDED'?'var(--g90)':r==='RECOMMENDED'?'var(--g80)':r==='POSSIBLE'?'var(--g60)':'var(--g0)'}
+function seasonScore(t,date){const m=date.getMonth()+1;
+  if(!t.season)return 80;
+  if(t.peak&&t.peak.includes(m))return 100;
+  return t.season.includes(m)?90:40}
+function dataConfScore(c){return c==='HIGH'?95:c==='MEDIUM'?75:55}
+/* 생물 적합도 (해황 제외 — "볼 확률"이 아님) */
+function targetSuitability(t,rel,date){
+  return Math.round(STRENGTH[rel.s]*0.6+seasonScore(t,date)*0.25+dataConfScore(t.conf)*0.15)}
+/* 최종 추천 점수: 우선순위 가중 + 접근성 + Safety Gate(§11·§34) */
+function marineFinal(t,rel,di,seaScore){
+  const w=PRIO_W[PRIORITY]||PRIO_W.balanced;
+  let f=STRENGTH[rel.s]*w.m+seaScore*w.sea+seasonScore(t,DAYS_DATE[di])*w.ssn+MX.confByDay[di]*w.cf;
+  const site=SITES.find(x=>x.id===rel.id);
+  if(site&&site.restricted){const ta=tideAgeName(DAYS_DATE[di]);if(ta.lv===3)f-=15;else if(ta.lv===2)f-=8}
+  if(seaScore<55)f=Math.min(f,50);           /* Safety Floor §34 */
+  f=Math.round(clamp(f,0,100));
+  const warnBad=MX.wcap<=30;
+  const rec=warnBad?'AVOID':seaScore<50?'NOT_RECOMMENDED':f>=85?'HIGHLY_RECOMMENDED':f>=70?'RECOMMENDED':f>=55?'POSSIBLE':'NOT_RECOMMENDED';
+  return {f,rec};
+}
+/* 날짜별 타깃 랭킹 (Species × Site × Time) */
+function marineDay(t,di){
+  return t.sites.map(rel=>{
+    const si=SITES.findIndex(x=>x.id===rel.id);if(si<0)return null;
+    const sea=siteDayScore(di,si);if(sea==null)return null;
+    const suit=targetSuitability(t,rel,DAYS_DATE[di]);
+    const {f,rec}=marineFinal(t,rel,di,sea);
+    const hourly=CONFIG.hours.map((h,hi)=>{const c=MX[di][hi][si];
+      return c?{h,score:marineFinal(t,rel,di,c.score).f}:null});
+    return {rel,si,sea:Math.round(sea),suit,fin:f,rec,win:bestWindow(hourly)};
+  }).filter(Boolean).sort((a,b)=>b.fin-a.fin);
+}
+/* Plan B (§25): 다른 타깃 포함 최고 대안 */
+function planB(excludeSi,di){
+  let best=null;
+  for(const t2 of TARGETS)for(const rel of t2.sites){
+    const si=SITES.findIndex(x=>x.id===rel.id);
+    if(si<0||si===excludeSi||rel.s==='POSSIBLE')continue;
+    const sea=siteDayScore(di,si);if(sea==null||sea<70)continue;
+    const {f,rec}=marineFinal(t2,rel,di,sea);
+    if(rec==='NOT_RECOMMENDED'||rec==='AVOID')continue;
+    if(!best||f>best.f)best={t:t2,rel,si,sea:Math.round(sea),f};
+  }
+  return best;
+}
+/* What Can I See Today (§26) */
+function todaysPicks(di){
+  const out=[];
+  for(const t of TARGETS){const rs=marineDay(t,di);
+    if(rs.length&&rs[0].rec!=='NOT_RECOMMENDED'&&rs[0].rec!=='AVOID')out.push({t,r:rs[0]})}
+  return out.sort((a,b)=>b.r.fin-a.r.fin).slice(0,5);
+}
+/* 추천 이유 빌더 (§14-16·§39): 규칙 기반 — 생물/해황/타이밍 3종 */
+function whyTarget(t,r,di){
+  const site=SITES[r.si];
+  const cells=CONFIG.coreHours.map(h=>MX[di][CONFIG.hours.indexOf(h)][r.si]).filter(Boolean);
+  const g=k=>avg(cells.map(c=>c.eff[k]));
+  const pos=[],neg=[];
+  pos.push(`[생물] ${site.name}은(는) 이 목표의 ${STR_KO[r.rel.s]}(${r.rel.s})로 등록되어 있습니다${r.rel.note?' — '+r.rel.note:''}${t.note?'. '+t.note:''}.`);
+  const ssn=seasonScore(t,DAYS_DATE[di]);
+  if(ssn>=90)pos.push(`[시즌] 현재 ${DAYS_DATE[di].getMonth()+1}월은 이 목표의 시즌${ssn===100?' 성수기':''}에 해당합니다.`);
+  else if(ssn<=40)neg.push(`[시즌] 현재는 주 시즌(${t.season?t.season.join('·')+'월':'-'})이 아닙니다.`);
+  const wv=g('wave');
+  if(wv!=null){if(wv<=0.8)pos.push(`[해황] 유효 파고 ${wv.toFixed(1)}m로 낮은 편입니다.`);
+    else if(wv>=1.3)neg.push(`[해황] 유효 파고 ${wv.toFixed(1)}m로 다소 높습니다.`)}
+  const sw=g('swell'),swT=g('swellT');
+  if(sw!=null&&sw>=0.9)neg.push(`[해황] 너울 ${sw.toFixed(1)}m@${(swT??0).toFixed(0)}s가 이 포인트에 영향을 줍니다.`);
+  const exW=avg(cells.map(c=>c.eff.exW)),wd=vecAvg(cells.map(c=>c.eff.wdir));
+  if(exW!=null){if(exW<0.4)pos.push(`[해황] 현재 ${dirName(wd)}풍에 대한 노출이 ${(exW*100).toFixed(0)}%로 제한적입니다.`);
+    else if(exW>0.75)neg.push(`[해황] 현재 풍향에 ${(exW*100).toFixed(0)}% 노출되어 있습니다.`)}
+  if(r.win)pos.push(`[타이밍] ${fmtWin(r.win)} 창의 점수가 가장 좋습니다 (평균 ${r.win.avg}점).`);
+  const morH=CONFIG.hours.filter(h=>h<12),aftH=CONFIG.hours.filter(h=>h>=13);
+  const mor=avg(morH.map(h=>MX[di][CONFIG.hours.indexOf(h)][r.si]?.score)),aft=avg(aftH.map(h=>MX[di][CONFIG.hours.indexOf(h)][r.si]?.score));
+  if(mor!=null&&aft!=null){if(mor-aft>7)neg.push(`[타이밍] 오후로 갈수록 해황 점수가 하락합니다 (${Math.round(mor)}→${Math.round(aft)}) — 오전 권장.`);
+    else if(aft-mor>7)pos.push(`[타이밍] 오전보다 오후 해황이 더 좋습니다 (${Math.round(mor)}→${Math.round(aft)}).`)}
+  if(site.restricted)neg.push('[접근] 입수일 제한 포인트 — 현지 샵 물때표 확인 필수.');
+  if(t.conf!=='HIGH')neg.push(`[데이터] 생물-사이트 근거 확신도 ${t.conf}${t.conf==='LIMITED'?' (LIMITED DATA — 참고용)':''}.`);
+  if(r.sea<50)neg.push(`[안전] 해황 ${r.sea}점 — Safety Gate에 의해 추천 제외 대상입니다.`);
+  else if(r.sea<55)neg.push(`[안전] 해황 ${r.sea}점 — Safety Floor로 최종 점수가 50점으로 제한되었습니다.`);
+  pos.push(`[신뢰도] 예보 신뢰도 ${MX.confByDay[di]}%.`);
+  return {pos,neg};
+}
+/* v2.0 상태 */
+let MODE=store.get('idi_mode')||'cond';
+let PRIORITY=store.get('idi_prio')||'balanced';
+let selTargets=new Set((store.get('idi_targets')||'tmanta').split(',').filter(Boolean));
+let MAPMODE='cond';
+function setMode(m){MODE=m;store.set('idi_mode',m);render()}
+function setPriority(p){PRIORITY=p;store.set('idi_prio',p);render()}
+function toggleTarget(id){
+  if(selTargets.has(id)){if(selTargets.size>1)selTargets.delete(id)}else selTargets.add(id);
+  store.set('idi_targets',[...selTargets].join(','));render();
+}
+function setMapMode(m){MAPMODE=m;render()}
+/* ---- v2.0 렌더러 ---- */
+function renderMarine(di){
+  let h='';
+  h+=`<div class="small" style="margin:4px 0">WHAT DO YOU WANT TO SEE? — 복수 선택 가능</div><div class="tchips">`+
+    TARGETS.map(t=>`<button class="tchip ${selTargets.has(t.id)?'active':''}" onclick="toggleTarget('${t.id}')">${t.icon} ${t.name.split(' (')[0]}${t.conf==='LIMITED'?'<span class="lim">LIMITED</span>':''}</button>`).join('')+'</div>';
+  h+=`<div class="prio"><span class="small" style="align-self:center">PRIORITY</span>
+    <button class="${PRIORITY==='target'?'active':''}" onclick="setPriority('target')">🎯 생물 우선</button>
+    <button class="${PRIORITY==='balanced'?'active':''}" onclick="setPriority('balanced')">⚖ 균형 (기본)</button>
+    <button class="${PRIORITY==='cond'?'active':''}" onclick="setPriority('cond')">🌊 해황 우선</button></div>`;
+  for(const tid of selTargets){
+    const t=TARGETS.find(x=>x.id===tid);if(!t)continue;
+    const rs=marineDay(t,di);
+    h+=`<div class="mtitle">${t.icon} <b>${t.name}</b> <span class="dc">근거 확신도 ${t.conf}${t.conf==='LIMITED'?' · LIMITED DATA':''}</span></div>`;
+    const dayCmp=DAYS.map((_,i)=>{const r2=marineDay(t,i);return r2.length?Math.max(...r2.map(x=>x.fin)):null});
+    const vals=dayCmp.filter(v=>v!=null);
+    const bi=vals.length?dayCmp.indexOf(Math.max(...vals)):-1;
+    h+='<div class="mdaycmp">'+dayCmp.map((v,i)=>`<div class="dch ${i===bi?'best':''}">${dayName(i)}<b style="color:${v!=null?gcol(v):'var(--dim)'}">${v??'-'}</b>${i===bi?' ★BEST':''}</div>`).join('')+'</div>';
+    if(!rs.length){h+='<div class="banner">이 날짜는 데이터가 없습니다.</div>';continue}
+    rs.slice(0,4).forEach((r,i)=>{
+      const s=SITES[r.si];
+      h+=`<div class="mrow ${i===0?'top':''}" id="mr-${tid}-${r.si}">
+        <div class="hd"><span class="no">#${i+1}</span>
+          <span class="nm">${s.name} <span class="st">${STR_STAR[r.rel.s]} ${STR_KO[r.rel.s]}${s.restricted?' · ⚠️입수제한':''}</span></span>
+          <span class="dual">
+            <span class="d"><span class="k">🐠 TARGET</span><span class="v" style="color:${gcol(r.suit)}">${r.suit}</span></span>
+            <span class="d"><span class="k">🌊 SEA</span><span class="v" style="color:${gcol(r.sea)}">${r.sea}</span></span>
+            <span class="d"><span class="k">FINAL</span><span class="v" style="color:${gcol(r.fin)}">${r.fin}</span></span>
+          </span>
+          <span class="reclab" style="background:${recColor(r.rec)};color:#04222e">${REC_KO[r.rec]}</span>
+        </div>
+        <div class="meta">${r.win?`BEST TARGET WINDOW <b style="color:var(--accent)">${fmtWin(r.win)}</b> · 평균 ${r.win.avg}점`:''}</div>
+        <button class="whybtn" onclick="document.getElementById('mr-${tid}-${r.si}').classList.toggle('open')">WHY THIS SITE? ▾</button>
+        <div class="whybox">${(()=>{const w=whyTarget(t,r,di);
+          return '<b>POSITIVE</b>'+w.pos.map(x=>`<div class="p">✓ ${x}</div>`).join('')+
+          (w.neg.length?'<b style="display:block;margin-top:6px">NEGATIVE</b>'+w.neg.map(x=>`<div class="n">△ ${x}</div>`).join(''):'');})()}
+        </div>
+      </div>`;
+    });
+    const top=rs[0];
+    if(top&&(top.rec==='NOT_RECOMMENDED'||top.rec==='AVOID'||top.sea<60)){
+      const pb=planB(top.si,di);
+      if(pb)h+=`<div class="planb">⚠️ <b>${t.name.split(' (')[0]}</b>의 최적 포인트(${SITES[top.si].name})는 오늘 해황이 ${top.sea}점으로 불리합니다.<br>
+        <b>PLAN B →</b> ${SITES[pb.si].name}에서 <b>${pb.t.icon} ${pb.t.name.split(' (')[0]}</b>(으)로 목표 전환 — 해황 ${pb.sea}점 · 추천점수 ${pb.f}점</div>`;
+    }
+  }
+  h+=renderPicksCard(di);
+  h+=`<div class="small" style="margin-top:10px">⚠️ <b>야생 해양생물의 실제 출현과 관찰 여부는 보장되지 않습니다.</b> TARGET 점수는 "볼 확률"이 아니라 그 생물을 목표로 이 포인트를 선택하는 것이 얼마나 합리적인가(Target Suitability)입니다. 생물-사이트 매핑은 일반 다이빙 정보 기반(근거 불충분 시 LIMITED) — 현지 가이드의 최신 정보가 항상 우선합니다.</div>`;
+  return h;
+}
+function renderPicksCard(di){
+  const picks=todaysPicks(di);
+  if(!picks.length)return '';
+  const medals=['🥇','🥈','🥉','4.','5.'];
+  return `<div class="picks"><b>🔮 WHAT CAN I SEE TODAY? — ${dayName(di)} 생물 목표 순위</b>
+  ${picks.map((p,i)=>`<div class="pk"><span class="medal">${medals[i]}</span><span class="tn">${p.t.icon} ${p.t.name.split(' (')[0]}</span>
+    <span class="site">${SITES[p.r.si].name}${p.r.win?' · '+fmtWin(p.r.win):''}</span>
+    <span class="dual"><span class="d"><span class="k">TARGET</span><span class="v" style="font-size:.95rem;color:${gcol(p.r.suit)}">${p.r.suit}</span></span>
+    <span class="d"><span class="k">SEA</span><span class="v" style="font-size:.95rem;color:${gcol(p.r.sea)}">${p.r.sea}</span></span></span></div>`).join('')}
+  <div class="small" style="margin-top:6px">출현 보장 아님 — Target Suitability 기준</div></div>`;
+}
 /* ================================================================ RENDER */
 function dayName(i){const d=DAYS_DATE[i];return `${d.getMonth()+1}/${d.getDate()}(${DOW[d.getDay()]})`}
 let DAYS_DATE=[];
@@ -799,6 +1064,11 @@ function render(){
       s+=` ${dayName(worst.i)}은 ${r.loss[0]?r.loss[0].label+' 영향으로':''} 상대적으로 불리합니다.`}
     html+=`<div class="summary">🧭 ${s}</div>`;
   }
+  /* v2.0 추천 모드 선택 (§2) */
+  html+=`<div class="modes"><div class="mq">WHAT'S YOUR PRIORITY? — 추천 모드 선택</div><div class="mbtns">
+    <button class="mbtn ${MODE==='cond'?'active':''}" onclick="setMode('cond')">🌊 BEST CONDITIONS<span>오늘 바다 상황이 가장 좋은 곳</span></button>
+    <button class="mbtn ${MODE==='life'?'active':''}" onclick="setMode('life')">🐠 MARINE LIFE TARGET<span>보고 싶은 생물 중심 추천</span></button>
+  </div></div>`;
   /* SECTION 1: 3-DAY OUTLOOK */
   html+=`<h2>📅 <b>${DAYS.length}-DAY DIVE OUTLOOK</b> <span class="tag live">LIVE FORECAST</span></h2><div class="outlook">`;
   t.days.forEach((d,i)=>{
@@ -844,12 +1114,18 @@ function render(){
   }
   html+=`<div class="mnote">⚠️ 이 점수는 <b>만타 포인트에 배를 대고 다이빙할 수 있는 기상·해양 조건</b>이며, <b>만타 출현 확률이 아닙니다</b>. 계절 참고: 카비라 이시자키 클리닝 스테이션은 여름~가을, <b>요나라 수도(만타웨이)는 9~11월</b>이 성수기로 알려져 있습니다. 요나라 수도는 강한 조류 때문에 <b>물때(대조기·소조기)에 따라 한 달에 약 7일만 입수가 허용</b>되므로 현지 다이빙샵 물때표 확인이 필수입니다.</div></div>`;
   /* 날짜 칩 */
-  html+=`<h2>📍 <b>DIVE SITE RANKING</b> — 날짜·시간별</h2><div class="chips">`+
+  html+=`<h2>${MODE==='life'?'🐠 <b>MARINE LIFE TARGET RANKING</b>':'📍 <b>BEST DIVING CONDITIONS</b> — 해황 중심 랭킹'} — 날짜·시간별</h2><div class="chips">`+
     t.days.map((d,i)=>`<button class="${i===activeDay?'active':''}" onclick="activeDay=${i};render()">${dayName(i)}${d.overall!=null?' · '+d.overall:''}</button>`).join('')+`</div>`;
-  /* SECTION 5: ranking + hour selector (§10) */
+  if(MODE==='life'){
+    /* MODE B: 생물 타깃 랭킹 (§12) */
+    html+=renderMarine(activeDay);
+  }else{
+  /* MODE A: 해황 랭킹 + hour selector (§10) */
   html+=`<div class="hoursel"><button class="${rankHour==='all'?'active':''}" onclick="rankHour='all';render()">하루 종합</button>`+
     CONFIG.hours.map(h=>`<button class="${rankHour===h?'active':''}" onclick="rankHour=${h};render()">${h}시</button>`).join('')+`</div>`;
   html+=renderRanking(activeDay);
+  html+=renderPicksCard(activeDay);
+  }
   /* SECTION 6: hourly graph */
   const dObj=t.days[activeDay],ih=dObj.ih;
   html+=`<h2>⏱️ <b>HOURLY DIVE SCORE</b> — ${dayName(activeDay)} <span class="small">(각 시간 최적 포인트 기준)</span></h2><div class="hgraph"><div class="hrow">`;
@@ -921,8 +1197,10 @@ function render(){
   /* 모델 비교 (§39) */
   html+=renderModels(activeDay);
   html+='</div></div>';
-  /* 지도 */
-  html+=`<h2>🗺️ <b>DIVE SITE MAP</b> — ${dayName(activeDay)} 종합점수 <span class="small">좌표 근사치(UNVERIFIED)</span></h2><div id="siteMap"></div>`;
+  /* 지도 (§47 MAP MODE 토글) */
+  html+=`<h2>🗺️ <b>DIVE SITE MAP</b> — ${dayName(activeDay)} <span class="small">좌표 근사치(UNVERIFIED)</span></h2>
+  <div class="maptog"><button class="${MAPMODE==='cond'?'active':''}" onclick="setMapMode('cond')">🌊 해황 점수</button>
+  <button class="${MAPMODE==='life'?'active':''}" onclick="setMapMode('life')">🐠 생물 타깃</button></div><div id="siteMap"></div>`;
   /* 소스/신선도/보고 (§94) */
   html+=renderSources();
   $('#app').innerHTML=html;
@@ -946,7 +1224,7 @@ function renderRanking(di){
     const c=x.cell||MX[di][CONFIG.hours.indexOf(10)][x.si]||MX[di][0][x.si];
     h+=`<div class="rrow" onclick="this.classList.toggle('open')">
       <span class="no">#${i+1}</span>
-      <span class="nm"><b>${s.name}</b>${s.manta?' 🐋':''}${s.drift?' 🌀':''}${s.restricted?' <span style="color:var(--g50);font-size:.66rem;font-weight:800">⚠️입수제한</span>':''} <a href="https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}" target="_blank" onclick="event.stopPropagation()" title="구글지도에서 열기" style="font-size:.72rem;text-decoration:none">📍지도</a><div class="a">${s.area} · ${s.depth} · ${s.beg?'초보OK':'경험자'}${s.restricted?' · 월 ~7일만 입수 가능(물때) — 현지 샵 물때표 필수':''}</div></span>
+      <span class="nm"><b>${s.name}</b>${SITE_TARGETS[s.id]?' <span class="ticons">'+[...new Set(SITE_TARGETS[s.id])].join('')+'</span>':''}${s.drift?' 🌀':''}${s.restricted?' <span style="color:var(--g50);font-size:.66rem;font-weight:800">⚠️입수제한</span>':''} <a href="https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}" target="_blank" onclick="event.stopPropagation()" title="구글지도에서 열기" style="font-size:.72rem;text-decoration:none">📍지도</a><div class="a">${s.area} · ${s.depth} · ${s.beg?'초보OK':'경험자'}${s.restricted?' · 월 ~7일만 입수 가능(물때) — 현지 샵 물때표 필수':''}</div></span>
       ${c?`<span class="cond">파고 ${c.eff.wave.toFixed(1)}m · 너울 ${c.eff.swell.toFixed(1)}m@${(c.eff.swellT??0).toFixed(0)}s ${arrowSpan(c.eff.swDir,'var(--g60)')}<br>바람 ${dirName(c.eff.wdir)} ${c.eff.windKt?.toFixed(0)}kt ${arrowSpan(c.eff.wdir!=null?c.eff.wdir+180:null)} · 해류 ${c.eff.curKt!=null?c.eff.curKt.toFixed(1)+'kt':'N/A'} ${arrowSpan(c.eff.curDir,'var(--g80)')}</span>`:''}
       <span class="sc" style="color:${gcol(x.score)}">${x.score}</span>
       <span class="gr" style="color:${gcol(x.score)}">${grade(x.score)}<br>${gradeKo(x.score)}</span>
@@ -1040,17 +1318,26 @@ function initMap(){
     if(MAP){MAP.remove();MAP=null}
     MAP=L.map('siteMap',{scrollWheelZoom:false}).setView([24.37,124.08],10);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(MAP);
+    const cssCol=v=>getComputedStyle(document.documentElement).getPropertyValue(v.slice(4,-1)).trim()||'#888';
+    if(MAPMODE==='life'){
+      /* 생물 타깃 모드: 선택된 첫 타깃 기준 (§47) */
+      const t=TARGETS.find(x=>selTargets.has(x.id))||TARGETS[0];
+      marineDay(t,activeDay).forEach(r=>{
+        const s=SITES[r.si],col=cssCol(gcol(r.fin));
+        L.circleMarker([s.lat,s.lon],{radius:11,color:col,fillColor:col,fillOpacity:.85,weight:2})
+          .addTo(MAP).bindPopup(`<b>${s.name}</b> ${t.icon}<br>${STR_STAR[r.rel.s]} ${STR_KO[r.rel.s]}<br>TARGET ${r.suit} · SEA ${r.sea} · FINAL <b>${r.fin}</b><br>${REC_KO[r.rec]}${r.win?' · '+fmtWin(r.win):''}${s.restricted?'<br>⚠️ 입수일 제한':''}<br><span style="font-size:.75em">근거 확신도 ${t.conf} · 출현 보장 아님</span>`);
+      });
+    }else{
     TRIP.days[activeDay].sds.forEach(x=>{
       const s=SITES[x.si],sc=Math.round(x.score);
-      const col=getComputedStyle(document.documentElement).getPropertyValue(gcol(sc).slice(4,-1)).trim()||'#888';
+      const col=cssCol(gcol(sc));
       L.circleMarker([s.lat,s.lon],{radius:10,color:col,fillColor:col,fillOpacity:.85,weight:2})
         .addTo(MAP).bindPopup(`<b>${s.name}</b> ${s.manta?'🐋':''}<br>${dayName(activeDay)} 종합 <b>${sc}점</b> · ${grade(sc)} ${gradeKo(sc)}${s.restricted?'<br>⚠️ 입수일 제한 — 현지 샵 물때표 확인':''}<br><span style="font-size:.75em">${s.area} · ${s.depth} · 좌표 근사치(UNVERIFIED)</span><br><a href="https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}" target="_blank">📍 구글지도에서 열기</a>`);
     });
+    }
   }catch(e){el.outerHTML='<div class="mapfallback">지도 초기화 실패: '+e.message+'</div>'}
 }
 /* ---------------- settings / boot ---------------- */
-const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},
-             set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 function getLevel(){return store.get('idi_level')||'experienced'}
 function applySettings(){
   store.set('idi_start',$('#startDate').value);
@@ -1241,6 +1528,28 @@ $('#guideSec').innerHTML=`
   <div class="gtiles" id="guideTiles" style="display:none;margin-top:10px">`+
   ART.map(a=>{const col=a.min>=90?'var(--g90)':a.min>=75?'var(--g80)':a.min>=60?'var(--g60)':a.min>=40?'var(--g50)':'var(--g0)';
   return `<div class="gtile">${a.svg}<span class="range" style="background:${col}">${a.grade}점</span><h3>${a.title}</h3></div>`}).join('')+`</div>`;
+/* 체인지로그 (v1.0 → v2.0) */
+$('#changelogSec').innerHTML=`
+  <button style="width:100%;margin-top:14px;background:var(--panel);border:1px solid var(--line);
+    color:var(--text);border-radius:12px;padding:13px 16px;cursor:pointer;font-size:.92rem;font-weight:700;
+    display:flex;align-items:center;gap:10px;text-align:left"
+    onclick="const g=document.getElementById('clBody');const o=g.style.display!=='none';g.style.display=o?'none':'block';this.querySelector('.arr').textContent=o?'▸':'▾'">
+    📋 ver 1.0 → ver 2.0 변경사항 보기 <span class="arr" style="margin-left:auto;color:var(--accent)">▸</span></button>
+  <div id="clBody" style="display:none;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:8px;font-size:.82rem;line-height:1.7;color:var(--dim)">
+    <b style="color:var(--text)">ver 1.0 (2026-08-12)</b> — "오늘 바다가 가장 좋은 곳은 어디인가?"에 답하는 시스템<br>
+    16개 포인트 해황 점수(파도·바람·너울·해류·뇌우·수온·신뢰도) · 시간별/날짜별 랭킹 · 만타 접근성 · Best Window · 조석·물때·달 · JMA 공식경보·태풍 Hard Override · 3개 언어 · 기간 자유 설정<br><br>
+    <b style="color:var(--text)">ver 2.0 (2026-08-13)</b> — 여기에 <b style="color:var(--accent)">"보고 싶은 생물을 보려면 어디로 가야 하는가?"</b>를 추가<br>
+    ① <b>추천 모드 2종</b>: 🌊 BEST CONDITIONS(해황 중심) / 🐠 MARINE LIFE TARGET(생물 중심) — 두 순위를 섞지 않고 분리<br>
+    ② <b>해양생물 DB 11종</b>(만타·바다거북·상어·리본일·배트피시·크로커다일피시·거북복·갯민숭·갑오징어·산호·물고기떼) × 포인트 매핑(PRIMARY/GOOD/POSSIBLE) — 근거 부족 시 LIMITED 표시<br>
+    ③ <b>Target Suitability</b>: 출현 확률이 아닌 "그 생물 목표로 그 포인트를 고르는 것이 얼마나 합리적인가" — TARGET·SEA·FINAL 3점수 동시 표시<br>
+    ④ <b>Safety Gate</b>: 해황 50점 미만 → 비추천, 55점 미만 → 최종점수 50점 제한, 공식경보 → 회피. 생물이 목표라도 나쁜 바다를 무시하지 않음<br>
+    ⑤ <b>Plan B 자동 생성</b>: 목표 포인트 해황이 나쁘면 대체 포인트+대체 생물 제안<br>
+    ⑥ <b>WHY THIS SITE?</b>: 생물·해황·타이밍 3종 근거를 규칙 기반으로 설명 (긍정/부정 요인)<br>
+    ⑦ <b>WHAT CAN I SEE TODAY?</b>: 오늘 해황에서 실현 가능성 높은 생물 목표 순위<br>
+    ⑧ 우선순위 3모드(생물/균형/해황) · 지도 생물 타깃 모드 · 포인트 카드 대표 생물 아이콘 · 생물별 BEST DAY<br><br>
+    <a href="v1.html">→ ver 1.0 화면 보기 (보존됨)</a><br>
+    <span style="font-size:.72rem">즐겁고 재미있고 안전한 다이빙과 다이버를 위하여 🤿 — Dr. Min &amp; Kim</span>
+  </div>`;
 /* boot */
 loadAll();
 setInterval(loadAll,CONFIG.autoRefreshMin*60*1000);
